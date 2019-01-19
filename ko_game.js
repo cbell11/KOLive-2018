@@ -356,7 +356,7 @@ function shuffle(sourceArray) {
 
 
  var con = mysql.createConnection({
-   host: "www.knockout.fun",
+   host: "162.241.252.113",
    user: "knockoy5_cbell11",
    password: "Chandler0522!",
    database: "knockoy5_WPZEL",
