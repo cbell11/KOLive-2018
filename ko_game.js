@@ -356,13 +356,12 @@ function shuffle(sourceArray) {
 
 
  var con = mysql.createConnection({
-   host: "db4free.net",
+   host: "knockout.fun",
    port: "3306",
-   user: "cbell11",
-   password: "password",
-   database: "knockouttest",
+   user: "knockoy5_cbell11",
+   password: "Chandler0522!",
+   database: "knockoy5_WPZEL",
  });
-
  con.connect(function(err) {
    if (err) throw err;
    console.log("Connected to mysql!");
