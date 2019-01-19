@@ -851,8 +851,8 @@ jQuery(function($) {
           //$secondsLeft = $('#displayTime');
           var time = (data.time * 60);
 
-          //progress(time, time, $('#progressBar'));
-          progress(30, 30, $('#progressBar'));
+          progress(time, time, $('#progressBar'));
+          //progress(30, 30, $('#progressBar'));
 
           function progress(timeleft, timetotal, $element) {
               var progressBarWidth = timeleft * $element.width() / timetotal;
