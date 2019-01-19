@@ -355,11 +355,19 @@ function shuffle(sourceArray) {
  var express = require('express');
 
 
- var con = mysql.createConnection({
+ /*var con = mysql.createConnection({
    host: "162.241.252.113",
    user: "knockoy5_cbell11",
    password: "Chandler0522!",
    database: "knockoy5_WPZEL",
+ });*/
+
+var con = mysql.createConnection({
+   host: "db4free.net",
+   port: "3306",
+   user: "cbell11",
+   password: "password",
+   database: "knockouttest",
  });
  con.connect(function(err) {
    if (err) throw err;
