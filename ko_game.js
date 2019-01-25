@@ -354,14 +354,21 @@ function shuffle(sourceArray) {
  var mysql = require('mysql');
  var express = require('express');
 
-/*
+
  var con = mysql.createConnection({
-   host: "localhost",
+   host: "bluehost",
    port: "3306",
    user: "knockoy5_cbell11",
    password: "Chandler0522!",
    database: "knockoy5_WPZEL",
- });*/
+ });
+/*
+ Host name = (use the server IP address)
+Database name = (cpanelUsername_databaseName)
+Database username = (cpanelUsername_databaseUsername)
+Database password = (the password you entered for that database user)
+MySQL Connection Port = 3306
+TCP or UDP, either is fine.
 
 var con = mysql.createConnection({
    host: "db4free.net",
@@ -369,7 +376,7 @@ var con = mysql.createConnection({
    user: "cbell11",
    password: "password",
    database: "knockouttest",
- });
+ });*/
  con.connect(function(err) {
    if (err) throw err;
    console.log("Connected to mysql!");
@@ -533,4 +540,6 @@ var wordPool = [
     $('#teamSelect').html("<div><button class = 'ccbtn btn-blue btn-simple deductTeamBtn' id = 'deductTeam1' type = 'button'> Team 1</button></div>");
     $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-red btn-simple' id = 'deductTeam2' type = 'button'>Team 2</button></div>");
     $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-gray btn-simple' id = 'deductTeam3' type = 'button'>Team 3</button></div>");
+  
+  
   }*/
