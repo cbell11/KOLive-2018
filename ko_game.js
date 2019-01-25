@@ -354,21 +354,21 @@ function shuffle(sourceArray) {
  var mysql = require('mysql');
  var express = require('express');
 
-/*
+
  var con = mysql.createConnection({
    host: "162.241.252.113",
    database: "knockoy5_WPZEL",
    user: "knockoy5_cbell11",
    password: "Chandler0522!",
    port: "3306",  
- });
+ });/*
 
  Host name = (use the server IP address)
 Database name = (cpanelUsername_databaseName)
 Database username = (cpanelUsername_databaseUsername)
 Database password = (the password you entered for that database user)
 MySQL Connection Port = 3306
-TCP or UDP, either is fine.*/
+TCP or UDP, either is fine.
 
 var con = mysql.createConnection({
    host: "db4free.net",
@@ -376,7 +376,7 @@ var con = mysql.createConnection({
    user: "cbell11",
    password: "password",
    database: "knockouttest",
- });
+ });*/
  con.connect(function(err) {
    if (err) throw err;
    console.log("Connected to mysql!");
