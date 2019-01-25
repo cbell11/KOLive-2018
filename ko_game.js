@@ -356,11 +356,11 @@ function shuffle(sourceArray) {
 
 
  var con = mysql.createConnection({
-   host: "bluehost",
-   port: "3306",
+   host: "162.241.252.113",
+   database: "knockoy5_WPZEL",
    user: "knockoy5_cbell11",
    password: "Chandler0522!",
-   database: "knockoy5_WPZEL",
+   port: "3306",  
  });
 /*
  Host name = (use the server IP address)
