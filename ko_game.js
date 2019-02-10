@@ -354,7 +354,7 @@ var mysql = require('mysql2');
 var url = require("url");
 var SocksConnection = require('socksjs');
 var remote_options = {
-host:'162.241.252.113',
+host:'db4free.net',
 port: 3306
 };
 //var proxy = url.parse('http://7j98fpdlp9f7xx:xb2bpRRZ0hPRUaOgqYT2MSucAw@us-east-static-07.quotaguard.com:9293');
@@ -371,9 +371,9 @@ pass: pass
 }
 var sockConn = new SocksConnection(remote_options, sock_options)
 var dbConnection = mysql.createConnection({
-user: 'knockoy5_cbell11',
-database: 'knockoy5_WPZEL',
-password: 'Chandler0522!',
+user: "cbell11",
+password: "password",
+database: "knockouttest",
 stream: sockConn
 });
 dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
