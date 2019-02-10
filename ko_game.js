@@ -355,7 +355,7 @@ var mysql = require('mysql2'),
     SocksConnection = require('socksjs');
 
 var remote_options = {
-    host:'db4free.net',
+    host:'knockout-live.herokuapp.com',
     port: 3306
 };
 
