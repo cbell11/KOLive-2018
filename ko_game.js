@@ -356,7 +356,7 @@ var mysql = require('mysql2'),
     SocksConnection = require('socksjs');
 
 var remote_options = {
-    host:'db4free.net',
+    host:'ec2-54-242-147-107.compute-1.amazonaws.com',
     port: 3306
 };
 
