@@ -351,6 +351,22 @@ function shuffle(sourceArray) {
  * @type {Array}
  */
  //Import the mysql module
+const http = require('http');
+const url = require('url');
+const fixieUrl = url.parse(process.env.FIXIE_URL);
+const requestUrl = url.parse('https://knockout-live.herokuapp.com/');
+
+http.get({
+    host: fixieUrl.hostname,
+    port: fixieUrl.port,
+    path: requestUrl.href,
+    headers: {
+      Host: requestUrl.host,
+      'Proxy-Authorization': `Basic ${new Buffer(fixieUrl.auth).toString('base64')}`,
+    }
+}, res => {
+  console.log(`Got response: ${res.statusCode}`);
+});
  var mysql = require('mysql');
  var express = require('express');
 
