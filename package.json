@@ -8,6 +8,7 @@
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
     "socket.io": "0.9"
+    "sockjs": "^0.3.19"
   },
   "main": "index.js",
   "devDependencies": {},
