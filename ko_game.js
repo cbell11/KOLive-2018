@@ -351,13 +351,12 @@ function shuffle(sourceArray) {
  * @type {Array}
  */
  //Import the mysql module
-var express = require('express');
 var mysql = require('mysql2'),
     url = require('url'),
     SocksConnection = require('socksjs');
 
 var remote_options = {
-    host:'162.241.252.113',
+    host:'db4free.net',
     port: 3306
 };
 
@@ -375,9 +374,9 @@ var sock_options = {
 
 var sockConn = new SocksConnection(remote_options, sock_options);
 var dbConnection = mysql.createConnection({
-    user: 'knockoy5_cbell11',
-    database: 'knockoy5_WPZEL',
-    password: 'Chandler0522!',
+    user: 'cbell11',
+    database: 'knockouttest',
+    password: 'password',
     stream: sockConn
 });
 dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
