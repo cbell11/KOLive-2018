@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericterpstra/anagrammatix.git"
+    "url": "https://github.com/cbell11/KOLive-2018.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ericterpstra/anagrammatix/issues"
+    "url": "https://github.com/cbell11/KOLive-2018"
   },
-  "homepage": "https://github.com/ericterpstra/anagrammatix"
+  "homepage": "https://github.com/cbell11/KOLive-2018"
 }
