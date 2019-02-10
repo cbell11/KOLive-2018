@@ -351,6 +351,43 @@ function shuffle(sourceArray) {
  * @type {Array}
  */
  //Import the mysql module
+var express = require('express');
+var mysql = require('mysql2'),
+    url = require('url'),
+    SocksConnection = require('socksjs');
+
+var remote_options = {
+    host:'162.241.252.113',
+    port: 3306
+};
+
+var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL),
+    auth = proxy.auth,
+    username = auth.split(':')[0],
+    pass = auth.split(':')[1];
+
+var sock_options = {
+    host: proxy.hostname,
+    port: 1080,
+    user: username,
+    pass: pass
+};
+
+var sockConn = new SocksConnection(remote_options, sock_options);
+var dbConnection = mysql.createConnection({
+    user: 'knockoy5_cbell11',
+    database: 'knockoy5_WPZEL',
+    password: 'Chandler0522!',
+    stream: sockConn
+});
+dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+    if (err) throw err;
+
+    console.log('Result: ', rows);
+    sockConn.dispose();
+});
+dbConnection.end();
+/*
  var mysql = require('mysql');
  var express = require('express');
 
@@ -362,7 +399,7 @@ function shuffle(sourceArray) {
    password: "Chandler0522!", 
    database: "knockoy5_WPZEL",
  });
-/*
+
 
  Host name = (use the server IP address)
 Database name = (cpanelUsername_databaseName)
