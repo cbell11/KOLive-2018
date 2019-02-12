@@ -340,22 +340,11 @@ function shuffle(sourceArray) {
 
     }
     return sourceArray;
-}
-/**
- * Each element in the array provides data for a single round in the game.
- *
- * In each round, two random "words" are chosen as the host word and the correct answer.
- * Five random "decoys" are chosen to make up the list displayed to the player.
- * The correct answer is randomly inserted into the list of chosen decoys.
- *
- * @type {Array}
- */
-
-
+} 
+/*
  var mysql = require('mysql');
  var express = require('express');
 
-/*
  var con = mysql.createConnection({
    host: "162.241.252.113",
    port: "3306",
@@ -363,33 +352,27 @@ function shuffle(sourceArray) {
    password: "Chandler0522!", 
    database: "knockoy5_WPZEL",
  });
-
-
- Host name = (use the server IP address)
-Database name = (cpanelUsername_databaseName)
-Database username = (cpanelUsername_databaseUsername)
-Database password = (the password you entered for that database user)
-MySQL Connection Port = 3306
-TCP or UDP, either is fine.
-
-
 var con = mysql.createConnection({
    host: "db4free.net",
    port: "3306",
    user: "cbell11",
    password: "password",
    database: "knockouttest",
- })*/
+ })
+con.connect(function(err) {
+   if (err) throw err;
+   console.log("Connected to mysql!");
+ });*/
 var mysql = require('mysql2'),
     url = require('url'),
     SocksConnection = require('socksjs');
 
 var remote_options = {
-    host:'85.10.205.173',
+    host:'db4free.net',
     port: 3306
 };
 
-var proxy = url.parse('http://7j98fpdlp9f7xx:xb2bpRRZ0hPRUaOgqYT2MSucAw@us-east-static-07.quotaguard.com:9293'),
+var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL),
     auth = proxy.auth,
     username = auth.split(':')[0],
     pass = auth.split(':')[1];
@@ -414,11 +397,7 @@ con.query('SELECT 1+1 as test1;', function(err, rows, fields) {
     console.log('Result: ', rows);
     sockConn.dispose();
 });
-con.connect(function(err) {
-   if (err) throw err;
-   console.log("Connected to mysql!");
-
- });
+//dbConnection.end();
 
 /* PHP Query CODE
 $sql = "SELECT * FROM knockouts WHERE ko_id= '$ko_id'";
