@@ -411,6 +411,8 @@ function populateQuestionPool(ko_id){
 
         console.log('Result: ', rows);
     });*/
+  var mysql = require('mysql');
+  var express = require('express');
   var con = mysql.createConnection({
    host: "db4free.net",
    port: "3306",
