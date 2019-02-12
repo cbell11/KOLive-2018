@@ -385,11 +385,11 @@ var mysql = require('mysql2'),
     SocksConnection = require('socksjs');
 
 var remote_options = {
-    host:'db4free.net',
+    host:'85.10.205.173',
     port: 3306
 };
 
-var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL),
+var proxy = url.parse('http://7j98fpdlp9f7xx:xb2bpRRZ0hPRUaOgqYT2MSucAw@us-east-static-07.quotaguard.com:9293'),
     auth = proxy.auth,
     username = auth.split(':')[0],
     pass = auth.split(':')[1];
@@ -402,7 +402,7 @@ var sock_options = {
 };
 
 var sockConn = new SocksConnection(remote_options, sock_options);
-var dbConnection = mysql.createConnection({
+var con = mysql.createConnection({
     user: 'cbell11',
     database: 'knockouttest',
     password: 'password',
