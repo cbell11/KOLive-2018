@@ -363,39 +363,7 @@ con.connect(function(err) {
    if (err) throw err;
    console.log("Connected to mysql!");
  });*/
-var mysql = require('mysql2'),
-    url = require('url'),
-    SocksConnection = require('socksjs');
 
-var remote_options = {
-    host:'162.241.252.113',
-    port: 3306
-};
-
-var proxy = url.parse('http://7j98fpdlp9f7xx:xb2bpRRZ0hPRUaOgqYT2MSucAw@us-east-static-07.quotaguard.com:9293'),
-    auth = proxy.auth,
-    username = auth.split(':')[0],
-    pass = auth.split(':')[1];
-
-var sock_options = {
-    host: proxy.hostname,
-    port: 1080,
-    user: username,
-    pass: pass
-};
-
-var sockConn = new SocksConnection(remote_options, sock_options);
-var con = mysql.createConnection({
-    user: 'knockoy5_cbell11',
-    database: 'knockoy5_WPZEL',
-    password: 'Chandler0522!',
-    stream: sockConn
-});
-con.query('SELECT 1+1 as test1;', function(err, rows, fields) {
-    if (err) throw err;
-
-    console.log('Result: ', rows);
-});
 //dbConnection.end();
 
 /* PHP Query CODE
@@ -410,6 +378,38 @@ $sql = "SELECT * FROM knockouts WHERE ko_id= '$ko_id'";
   */
 
 function populateQuestionPool(ko_id){
+  var mysql = require('mysql2'),
+    url = require('url'),
+    SocksConnection = require('socksjs');
+    var remote_options = {
+        host:'162.241.252.113',
+        port: 3306
+    };
+
+    var proxy = url.parse('http://7j98fpdlp9f7xx:xb2bpRRZ0hPRUaOgqYT2MSucAw@us-east-static-07.quotaguard.com:9293'),
+        auth = proxy.auth,
+        username = auth.split(':')[0],
+        pass = auth.split(':')[1];
+
+    var sock_options = {
+        host: proxy.hostname,
+        port: 1080,
+        user: username,
+        pass: pass
+    };
+
+    var sockConn = new SocksConnection(remote_options, sock_options);
+    var con = mysql.createConnection({
+        user: 'knockoy5_cbell11',
+        database: 'knockoy5_WPZEL',
+        password: 'Chandler0522!',
+        stream: sockConn
+    });
+    con.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+        if (err) throw err;
+
+        console.log('Result: ', rows);
+    });
   //var sql = mysql.format("SELECT * FROM knockouts WHERE ko_id ='"+ko_id+"'");
   var sql = mysql.format("SELECT * FROM qna WHERE ko_id='"+ko_id+"'");
 
