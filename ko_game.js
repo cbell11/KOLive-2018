@@ -414,11 +414,11 @@ function populateQuestionPool(ko_id){
   var mysql = require('mysql');
   var express = require('express');
   var con = mysql.createConnection({
-   host: "db4free.net",
+   host: "162.241.252.113",
    port: "3306",
-   user: "cbell11",
-   password: "password",
-   database: "knockouttest",
+   user: "knockoy5_cbell11",
+   password: "Chandler0522!", 
+   database: "knockoy5_WPZEL",
  })
 con.connect(function(err) {
    if (err) throw err;
