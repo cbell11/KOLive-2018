@@ -372,19 +372,54 @@ Database password = (the password you entered for that database user)
 MySQL Connection Port = 3306
 TCP or UDP, either is fine.
 
-*/
+
 var con = mysql.createConnection({
    host: "db4free.net",
    port: "3306",
    user: "cbell11",
    password: "password",
    database: "knockouttest",
- })
- con.connect(function(err) {
+ })*/
+var mysql = require('mysql2'),
+    url = require('url'),
+    SocksConnection = require('socksjs');
+
+var remote_options = {
+    host:'db4free.net',
+    port: 3306
+};
+
+var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL),
+    auth = proxy.auth,
+    username = auth.split(':')[0],
+    pass = auth.split(':')[1];
+
+var sock_options = {
+    host: proxy.hostname,
+    port: 1080,
+    user: username,
+    pass: pass
+};
+
+var sockConn = new SocksConnection(remote_options, sock_options);
+var dbConnection = mysql.createConnection({
+    user: 'cbell11',
+    database: 'knockouttest',
+    password: 'password',
+    stream: sockConn
+});
+con.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+    if (err) throw err;
+
+    console.log('Result: ', rows);
+    sockConn.dispose();
+});
+con.connect(function(err) {
    if (err) throw err;
    console.log("Connected to mysql!");
 
  });
+
 /* PHP Query CODE
 $sql = "SELECT * FROM knockouts WHERE ko_id= '$ko_id'";
    $result = $conn->query($sql);
