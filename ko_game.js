@@ -378,7 +378,7 @@ $sql = "SELECT * FROM knockouts WHERE ko_id= '$ko_id'";
   */
 
 function populateQuestionPool(ko_id){
-  /* QuotaGuard Connection*/
+  /* QuotaGuard Connection
   var mysql = require('mysql2'),
     url = require('url'),
     SocksConnection = require('socksjs');
@@ -410,8 +410,8 @@ function populateQuestionPool(ko_id){
         if (err) throw err;
 
         console.log('Result: ', rows);
-    });
-  /*var mysql = require('mysql');
+    });*/
+  var mysql = require('mysql');
   var express = require('express');
   var con = mysql.createConnection({
    host: "db4free.net",
@@ -423,7 +423,7 @@ function populateQuestionPool(ko_id){
 con.connect(function(err) {
    if (err) throw err;
    console.log("Connected to mysql!");
- }); */ 
+ }); 
   var sql = mysql.format("SELECT * FROM qna WHERE ko_id='"+ko_id+"'");
 
   con.query(sql, function (err, rows, field) {
