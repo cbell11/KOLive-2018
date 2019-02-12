@@ -368,7 +368,7 @@ var mysql = require('mysql2'),
     SocksConnection = require('socksjs');
 
 var remote_options = {
-    host:'db4free.net',
+    host:'162.241.252.113',
     port: 3306
 };
 
@@ -386,16 +386,15 @@ var sock_options = {
 
 var sockConn = new SocksConnection(remote_options, sock_options);
 var con = mysql.createConnection({
-    user: 'cbell11',
-    database: 'knockouttest',
-    password: 'password',
+    user: 'knockoy5_cbell11',
+    database: 'knockoy5_WPZEL',
+    password: 'Chandler0522!',
     stream: sockConn
 });
 con.query('SELECT 1+1 as test1;', function(err, rows, fields) {
     if (err) throw err;
 
     console.log('Result: ', rows);
-    sockConn.dispose();
 });
 //dbConnection.end();
 
