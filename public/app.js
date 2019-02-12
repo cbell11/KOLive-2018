@@ -411,7 +411,7 @@ jQuery(function($) {
         App.$gameArea.html(App.$templateNewGame);
 
         // Display the URL on screen
-        $('#gameURL').text('knockout-live.herokuapp.com');
+        $('#gameURL').text('kolive.herokuapp.com');
         //App.doTextFit('#gameURL');
 
         // Show the gameId / room id on screen
