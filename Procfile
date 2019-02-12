@@ -1,2 +1,1 @@
-web: bin/qgtunnel 
-web: node index.js
+web: bin/qgtunnel node index.js
