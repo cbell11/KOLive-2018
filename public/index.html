@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <title>KO Live</title>
+<link rel="icon" href="public/favicon/favicon.ico" type="image/ico">
+
+
 
 <head>
   <meta charset="utf-8" />
@@ -20,6 +23,8 @@
   <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
 
   <link href="css/styles.css" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/ico">
+
 </head>
 
 <body>
@@ -28,7 +33,6 @@
   <div id="gameArea">
     <!-- This is where the templates defined below will be used -->
   </div>
-
   <!-- Main Title Screen that appears when the page loads for the first time -->
   <script id="intro-screen-template" type="text/template">
 
@@ -49,7 +53,6 @@
     </div>
 
   </script>
-
   <!-- This screen appears when a user clicks "CREATE" on the Title Screen -->
   <script id="create-game-template" type="text/template">
     <div class="title">
@@ -67,11 +70,10 @@
         </ul>
       </div>
       <div id = 'createGameContainer'>
-      <button id = 'preTeamsBtn' class = 'btn btn-primary' value = 'createGame' disabled>Waiting on +6 Students</button>
+      <button id = 'preTeamsBtn' class = 'btn btn-primary' value = 'createGame' disabled>Waiting on +4 Students</button>
     </div>
     </div>
   </script>
-
   <!-- This scrreen appears when a player clicks "JOIN" on the Title Screen -->
   <script id="join-game-template" type="text/template">
     <div class="joinGameWrapper">
@@ -177,21 +179,13 @@
     </div>
     </div>
   </script>
-
   <!-- This is the 'Host' screen. It displays the word for each player to match -->
   <script id="host-game-template" type="text/template">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
+    <div><strong>Game Code: </strong><span id = 'gameCodeDisplay'></span></div>
     <div id="wordArea">
       <div id = "hostWord">5</div>
     </div>
-    <!--<div id="playerScores">
-      <div id="player1Score" class="playerScore">
-        <span class="score">0</span><span class="playerName">Player 1</span>
-      </div>
-      <div id="player2Score" class="playerScore">
-        <span class="playerName">Player 2</span><span class="score">0</span>
-      </div>-->
     </div>
     <div id="progressBar">
       <div></div>
@@ -202,11 +196,90 @@
     <div id = 'w3-row-2' class="w3-row">
     </div>
 
+
   </script>
-  <script id="player-game-template" type="text/template">
+  <script id="player1-game-template" type="text/template">
     <div id="playerScores">
       <div id="playerScore" class="playerScore">
-        <span class="score">0</span><span class="playerName"></span>
+        <span class="playerName"></span><span class="score">Team 1</span>
+      </div>
+    </div>
+    <div id="playerWordDiv">
+      <div id="playerWord"></div>
+    </div>
+    <div id = 'answerDiv'>
+    </div>
+
+
+  </script>
+  <script id="player2-game-template" type="text/template">
+    <div id="playerScores">
+      <div id="playerScore" class="playerScore">
+        <span class="playerName"></span><span class="score">Team 2</span>
+      </div>
+    </div>
+    <div id="playerWordDiv">
+      <div id="playerWord"></div>
+    </div>
+
+
+    <div id = 'answerDiv'>
+    </div>
+
+
+  </script>
+  <script id="player3-game-template" type="text/template">
+    <div id="playerScores">
+      <div id="playerScore" class="playerScore">
+        <span class="playerName"></span><span class="score">Team 3</span>
+      </div>
+    </div>
+    <div id="playerWordDiv">
+      <div id="playerWord"></div>
+    </div>
+
+
+    <div id = 'answerDiv'>
+    </div>
+
+
+  </script>
+  <script id="player4-game-template" type="text/template">
+    <div id="playerScores">
+      <div id="playerScore" class="playerScore">
+      <span class="playerName"></span><span class="score">Team 4</span>
+      </div>
+    </div>
+    <div id="playerWordDiv">
+      <div id="playerWord"></div>
+    </div>
+
+
+    <div id = 'answerDiv'>
+    </div>
+
+
+  </script>
+  <script id="player5-game-template" type="text/template">
+    <div id="playerScores">
+      <div id="playerScore" class="playerScore">
+        <span class="playerName"></span><span class="score">Team 5</span>
+      </div>
+    </div>
+    <div id="playerWordDiv">
+      <div id="playerWord"></div>
+    </div>
+
+
+    <div id = 'answerDiv'>
+    </div>
+
+
+  </script>
+  <script id="player6-game-template" type="text/template">
+    <div id="playerScores"> Team 6
+      <div id="playerScore" class="playerScore">
+        <span class="playerName"></span><span class="score">Team 6</span>
       </div>
     </div>
     <div id="playerWordDiv">
@@ -227,37 +300,29 @@
         <div id = 'w3-teamDeduct-row-1' class="w3-row">
         </div>
         <br><br><br>
-        <div id = 'w3-teamDeduct-row-2' class="w3-row">
+      <div id='w3-teamDeduct-row-3' class="w3-row">
     </div>
-
+  </div>
       <!--<button class = 'deductTeamBtn' id = 'deductTeam1' type = 'button'>Team 1</button>
       <button class = 'deductTeamBtn' id = 'deductTeam2' type = 'button'>Team 2</button>-->
     <!--</div>-->
 
 
   </script>
-
   <!-- JavaScript Libraries -->
-
   <!-- jQuery! -->
   <script src="libs/jquery-2.0.2.min.js"></script>
-
   <!-- TextFit resizes text to fill a container.
         It's used so the titles and game words fit properly on any size screen.
         https://github.com/STRML/textFit   -->
   <script src="libs/textFit.min.js"></script>
-
   <!-- FastClick is used to eliminate the 300ms delay when clicking items on a mobile device
         https://github.com/ftlabs/fastclick -->
   <script src="libs/fastclick.js"></script>
-
   <!-- If Socket.IO is used with Express, then the /socket.io/ path will
         serve the proper Socket.IO javascript files used by the browser -->
   <script src="/socket.io/socket.io.js"></script>
-
   <!-- app.js is where all the client-side Anagrammatix game logic -->
   <script src="app.js"></script>
-
 </body>
-
 </html>
