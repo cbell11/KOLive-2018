@@ -163,6 +163,42 @@ button:focus {
 #inputGameId{
   color: black;
 }
+/*MOBILE PHONE SCREEN SETTINGS*/
+@media only screen
+and (max-device-width: 750px) {
+    .info{
+      margin-top: 2em;
+    }
+}
+/*TABLET SCREEN SETTINGS*/
+@media only screen
+  and (min-device-width: 750px)
+  and (max-device-width: 1380px)  {
+    .info{
+      margin-top: 3.5em;
+      font-size: 8vw;
+    }
+    .info label{
+      font-size: 5vw;
+    }
+    .info input{
+      margin-top: 10px;
+      margin-bottom: 50px;
+      font-size: 7vw;
+      padding-bottom: 30px;
+      height: 80px;
+    }
+    .gameOver{
+      display: block;
+      height: 100%;
+      margin-top: 40%;
+      font-size: 200px;
+    }
+    #waitingFont{
+      font-size: 8vw;
+    }
+
+}
 
 
 /* ******************************
@@ -225,10 +261,9 @@ button:focus {
   right: 0;
 }
 #btnStart{
-  margin-top: -5px;
-  width: 120px;
+  margin-top: -20px;
+  width: 40%;
   height: 60px;
-  font-size: 25px;
   /*Responsive Fontfont-size: 2vw;*/
   font-weight: normal;
   position: absolute;
@@ -237,6 +272,24 @@ button:focus {
   left: 0;
   right: 0;
 }
+/*MOBILE PHONE SCREEN SETTINGS*/
+@media only screen
+  and (max-device-width: 750px)
+  and (-webkit-min-device-pixel-ratio: 3) {
+  #btnStart{
+    font-size: 40px;
+  }
+}
+/*TABLET SCREEN SETTINGS*/
+@media only screen
+  and (min-device-width: 750px)
+  and (max-device-width: 1380px)  {
+    #btnStart{
+      margin-top: -80px;
+      height: 140px;
+      font-size: 80px;
+    }
+  }
 .switch-field {
   font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
 	overflow: hidden;
@@ -366,8 +419,9 @@ button:focus {
 #progressBar {
   width: 50%;
   margin: 10% auto;
-  height: 22px;
+  height: 25px;
   background-color: #AFDCEB ;
+  border-radius: 20px;
 }
 
 #progressBar div {
@@ -378,32 +432,35 @@ button:focus {
   width: 0;
   background-color: #227DB6 ;
   box-sizing: border-box;
+  border-radius: 20px;
 }
 .teamHealthBar{
   background: #34A853;
+  border-radius: 20px;
 }
 .teamHealthBar {
   color: #EA4335;
+  border-radius: 20px;
 }
 .teamHealthBar::-webkit-progress-value {
   background: #34A853;
+  border-radius: 20px;
 }
 
 .teamHealthBar::-moz-progress-bar {
   background: #EA4335;
+  border-radius: 20px;
 }
 
 .teamHealthBar::-webkit-progress-value {
   background: #34A853;
+  border-radius: 20px;
 }
 
 .teamHealthBar::-webkit-progress-bar {
   background: #EA4335;
+  border-radius: 20px;
 }
-
-
-
-
 
 /* ******************************
           PLAYER GAME SCREEN
@@ -456,6 +513,9 @@ button:focus {
 }
 .btn-gray{
 	background: #665f5f;
+}
+.btn-purple{
+  background: #BA55D3;
 }
 .btn-simple{
 	-webkit-border-radius: 5;
@@ -535,6 +595,54 @@ button:focus {
     color: white;
     background-color: #333a40;
 }
+/*MOBILE PHONE SCREEN SETTINGS*/
+@media only screen
+  and (max-device-width: 750px) {
+    .playerScore span{
+        display: inline-block;
+        font-size: 5vw;
+        padding: 2%;
+        min-width: 10%;
+        margin: 0;
+    }
+
+
+    .playerScore .score {
+        text-align: center;
+        background-color: #ffd700;
+    }
+
+    .playerScore .playerName {
+        width: 20%;
+        color: white;
+        background-color: #333a40;
+    }
+
+  }
+  /*TABLET SCREEN SETTINGS*/
+  @media only screen
+    and (min-device-width: 750px)
+    and (max-device-width: 1380px)  {
+      .playerScore span{
+          display: inline-block;
+          font-size: 5vw;
+          padding: 2%;
+          min-width: 10%;
+          margin: 0;
+      }
+      .playerScore .score {
+          text-align: center;
+          background-color: #ffd700;
+      }
+
+      .playerScore .playerName {
+          width: 20%;
+          color: white;
+          background-color: #333a40;
+      }
+
+    }
+
 #teamSelect{
 height: 90%;
 margin-top: 10%;
@@ -543,8 +651,78 @@ margin-top: 10%;
   display: inline;
   margin: auto;
 }
-#w3-teaDeductrow-2{
+#addPointsDiv{
+  position: absolute;
+  bottom: 0;
+  text-align: center;
 }
+#addPoints{
+  height: 10%;
+  width: auto;
+}
+.btn-sq-lg {
+  width: 150px !important;
+  height: 150px !important;
+}
+
+.btn-sq {
+  width: 100px !important;
+  height: 100px !important;
+  font-size: 10px;
+}
+
+.btn-sq-sm {
+  width: 50px !important;
+  height: 50px !important;
+  font-size: 10px;
+}
+
+.btn-sq-xs {
+  width: 25px !important;
+  height: 25px !important;
+  padding:2px;
+}
+/*MOBILE PHONE SCREEN SETTINGS*/
+@media only screen
+  and (max-device-width: 750px) {
+    #teamSelect{
+    height: 90%;
+    margin-top: 20%;
+    margin-left: 10px;
+  }
+}
+/*TABLET SCREEN SETTINGS*/
+@media only screen
+  and (min-device-width: 750px)
+  and (max-device-width: 1380px)  {
+    #teamSelect{
+    height: 90%;
+    margin-top: 20%;
+    margin-left: 10px;
+  }
+  .ccbtn {
+    font-size:35px;
+    font-family: Arial;
+    color: #ffffff;
+    padding: 30px 30px 30px 30px;
+    text-decoration: none;
+    margin-right:25px;
+    margin-bottom:25px;
+    text-transform: uppercase;
+  }
+  .ccbtn:hover {
+    opacity:0.9;
+    text-decoration: none;
+  }
+  #addPoints{
+    height: 15%;
+    width: 50% !important;
+    padding: 30px 30px 30px 30px;
+    margin-right:25px;
+
+  }
+}
+
 #answer_bank{
     position: fixed;
     text-align: center;
@@ -552,12 +730,12 @@ margin-top: 10%;
     align-items: center;
     vertical-align: middle;
     bottom: 0;
+    margin-bottom: 40px;
     width: 100%;
     height: 40%;
     list-style-type: none;
+    /*THIS ADJUSTS BUTTON FONT SIZE*/
     font-size: 1vw;
-
-
 }
 #playerWordDiv{
   height: 90%;
@@ -577,7 +755,8 @@ margin-top: 10%;
 
 #ulAnswers li {
     width: 100%;
-    height: 50%;
+    height: 80%;
+    margin top: 20px;
 }
 
 .btnAnswer {
@@ -589,8 +768,108 @@ margin-top: 10%;
     font-size: 3em;
     color: black;
     text-align: center;
+}
+/*MOBILE PHONE SCREEN SETTINGS*/
+@media only screen
+  and (max-device-width: 750px) {
+  #answerDiv{
+    position: fixed;
+    bottom: 0;
+  }
+  #playerWordDiv{
+    margin-top: 20%;
+  }
+  #playerWord{
+    font-size: 21vw;
+  }
+  #answer_bank{
+    /*THIS ADJUSTS BUTTON FONT SIZE*/
+    font-size: 3vw;
+    margin-bottom: 10px;
+    position: fixed;
+    bottom: 0;
+  }
+  #ulAnswers{
+    width: 80%;
+    height: 100%;
+    padding: 10;
+    margin-bottom: 10px;
+  }
+  #ulAnswers li{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 70%;
+    margin-bottom: 20px;
+  }
+  #ulAnswers li button{
+    height: 40%;
+    margin-bottom: 20px;
+
+  }
+  #btnAnswer{
+    height: 200px;
+    margin-bottom: 0px;
+    padding: 20px;
+  }
+  .gameOver {
+      display: block;
+      height: 20%;
+      margin-top: 30%;
+      font-size: 2em;
+  }
 
 }
+/*TABLET SCREEN SETTINGS*/
+@media only screen
+  and (min-device-width: 750px)
+  and (max-device-width: 1380px)  {
+    #answerDiv{
+      position: fixed;
+      bottom: 0;
+    }
+    #playerWordDiv{
+      margin-top: 5%;
+    }
+    #playerWord{
+      font-size: 18vw;
+    }
+    #answer_bank{
+      /*THIS ADJUSTS BUTTON FONT SIZE*/
+      font-size: 2.5vw;
+      margin-bottom: 0px;
+      position: fixed;
+      bottom: 0;
+    }
+    #ulAnswers{
+      width: 80%;
+      height: 100%;
+      padding: 10;
+      margin-bottom: 0px;
+    }
+    #ulAnswers li{
+      padding-top: 20px;
+      padding-bottom: 0px;
+      height: 70%;
+      margin-bottom: 0px;
+    }
+    #ulAnswers li button{
+      height: 40%;
+      margin-bottom: 0px;
+
+    }
+    #btnAnswer{
+      height: 200px;
+      margin-bottom: 0px;
+      padding: 20px;
+    }
+    .gameOver {
+        display: block;
+        height: 20%;
+        margin-top: 30%;
+        font-size: 2em;
+    }
+
+  }
 
 
 /* ******************************
