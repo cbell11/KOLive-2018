@@ -777,7 +777,7 @@ margin-top: 10%;
     bottom: 0;
   }
   #playerWordDiv{
-    margin-top: 20%;
+    margin-top: 10%;
   }
   #playerWord{
     font-size: 21vw;
@@ -785,7 +785,6 @@ margin-top: 10%;
   #answer_bank{
     /*THIS ADJUSTS BUTTON FONT SIZE*/
     font-size: 3vw;
-    margin-bottom: 10px;
     position: fixed;
     bottom: 0;
   }
@@ -793,18 +792,14 @@ margin-top: 10%;
     width: 80%;
     height: 100%;
     padding: 10;
-    margin-bottom: 10px;
   }
   #ulAnswers li{
     padding-top: 20px;
     padding-bottom: 20px;
     height: 70%;
-    margin-bottom: 20px;
   }
   #ulAnswers li button{
     height: 40%;
-    margin-bottom: 20px;
-
   }
   #btnAnswer{
     height: 200px;
