@@ -22,6 +22,7 @@ exports.initGame = function(sio, socket){
     gameSocket.on('hostTeamsSet', hostTeamsSet);
     gameSocket.on('hostCountdownFinished', hostStartGame);
     gameSocket.on('hostNextRound', hostNextRound);
+    gameSocket.on('addPointsBtn', addPointsBtn);
     gameSocket.on('gameOver', gameOver);
 
     // Player Events
@@ -66,7 +67,6 @@ function hostPreGame(data) {
     io.sockets.in(data.gameId).emit('beginPreGame', data);
 
 };
-
 /*
  * Two players have joined. Alert the host!
  * @param gameId The game ID / room ID
@@ -142,6 +142,10 @@ function hostNextRound(data) {
         sendWord(0,data.gameId);
     }
 }
+function addPointsBtn(data) {
+  io.sockets.in(data.gameId).emit('addPointsBtn', data);
+
+}
 function gameOver(data) {
         console.log('Game Over...');
         io.sockets.in(data.gameId).emit('gameOver');
@@ -195,8 +199,6 @@ function playerPreGame(data) {
     io.sockets.in(data.gameId).emit('beginPreGame', data);
 
 }
-
-
 /**
  * A player has tapped a word in the word list.
  * @param data gameId
@@ -294,10 +296,7 @@ function getWordData(i){
     else {
       roughDecoys = remove_duplicates(roughDecoys);
     }
-
   }
-
-
     // Pick a random spot in the decoy list to put the correct answer
     var rnd = Math.floor(Math.random() * 4);
     roughDecoys.splice(rnd, 0, cor_answer[0]);
@@ -340,107 +339,59 @@ function shuffle(sourceArray) {
 
     }
     return sourceArray;
-} 
-/*
- var mysql = require('mysql');
- var express = require('express');
+}
+/**
+ * Each element in the array provides data for a single round in the game.
+ *
+ * In each round, two random "words" are chosen as the host word and the correct answer.
+ * Five random "decoys" are chosen to make up the list displayed to the player.
+ * The correct answer is randomly inserted into the list of chosen decoys.
+ *
+ * @type {Array}
+ */
+ //Import the mysql module
 
- var con = mysql.createConnection({
-   host: "162.241.252.113",
-   port: "3306",
-   user: "knockoy5_cbell11",
-   password: "Chandler0522!", 
-   database: "knockoy5_WPZEL",
- });
-var con = mysql.createConnection({
-   host: "db4free.net",
-   port: "3306",
-   user: "cbell11",
-   password: "password",
-   database: "knockouttest",
- })
-con.connect(function(err) {
-   if (err) throw err;
-   console.log("Connected to mysql!");
- });*/
-
-//dbConnection.end();
-
-/* PHP Query CODE
-$sql = "SELECT * FROM knockouts WHERE ko_id= '$ko_id'";
-   $result = $conn->query($sql);
-   while ($row = $result->fetch_assoc()) {
-    $ko_name = $row['ko_name'];
-    echo "<div style = 'text-align: center;' class = 'dark-text'>
-            <h1 style = 'margin-left: 1px;'>".$row['ko_name']."<br></h1>
-          </div><br><br>";
-  }}
-  */
 
 function populateQuestionPool(ko_id){
-  /* QuotaGuard Connection
-  var mysql = require('mysql2'),
-    url = require('url'),
-    SocksConnection = require('socksjs');
-    var remote_options = {
-        host:'162.241.252.113',
-        port: 3306
-    };
-
-    var proxy = url.parse('http://7j98fpdlp9f7xx:xb2bpRRZ0hPRUaOgqYT2MSucAw@us-east-static-07.quotaguard.com:9293'),
-        auth = proxy.auth,
-        username = auth.split(':')[0],
-        pass = auth.split(':')[1];
-
-    var sock_options = {
-        host: proxy.hostname,
-        port: 1080,
-        user: username,
-        pass: pass
-    };
-
-    var sockConn = new SocksConnection(remote_options, sock_options);
-    var con = mysql.createConnection({
-        user: 'knockoy5_cbell11',
-        database: 'knockoy5_WPZEL',
-        password: 'Chandler0522!',
-        stream: sockConn
-    });
-    con.query('SELECT 1+1 as test1;', function(err, rows, fields) {
-        if (err) throw err;
-
-        console.log('Result: ', rows);
-    });*/
   var mysql = require('mysql');
   var express = require('express');
+  /*Local Host Setup
   var con = mysql.createConnection({
-   host: "127.0.0.1",
-   port: "3306",
-   user: "knockoy5_cbell11",
-   password: "Chandler0522!", 
-   database: "knockoy5_WPZEL",
- })
-con.connect(function(err) {
-   if (err) throw err;
-   console.log("Connected to mysql!");
- }); 
-  var sql = mysql.format("SELECT * FROM qna WHERE ko_id='"+ko_id+"'");
-
-  con.query(sql, function (err, rows, field) {
-    if (err) throw err;
-    console.log(rows);
-    for(var i = 0; i < rows.length; i++){
-    console.log('Q'+(i+1)+': '+rows[i].qna_q+'');
-    console.log('Q'+(i+1)+': '+rows[i].qna_a+'');
-    wordPool.push( {
-        'question': [rows[i].qna_q],
-        'cor_ans': [rows[i].qna_a],
-        'decoys': [],
+     host: "localhost",
+     port: "3306",
+     user: "root",
+     password: "",
+     database: "loginsystem",
+   });*/
+     /*Online Setup*/
+     var con = mysql.createConnection({
+      host: "127.0.0.1",
+      port: "3306",
+      user: "knockoy5_cbell11",
+      password: "Chandler0522!",
+      database: "knockoy5_WPZEL",
+    })
+   con.connect(function(err) {
+      if (err) throw err;
+      console.log("Connected to mysql!");
     });
-    }
+     var sql = mysql.format("SELECT * FROM qna WHERE ko_id='"+ko_id+"'");
+
+     con.query(sql, function (err, rows, field) {
+       if (err) throw err;
+       console.log(rows);
+       for(var i = 0; i < rows.length; i++){
+       console.log('Q'+(i+1)+': '+rows[i].qna_q+'');
+       console.log('Q'+(i+1)+': '+rows[i].qna_a+'');
+       wordPool.push( {
+           'question': [rows[i].qna_q],
+           'cor_ans': [rows[i].qna_a],
+           'decoys': [],
+       });
+       }
 
 
-  });
+     });
 }
 /*var wordPool = [
      {
@@ -486,89 +437,4 @@ con.connect(function(err) {
          "decoys" : []
      }
    ]
-
-
-
 */
-/*
-var wordPool = [
-    {
-        "question"  : [ "1+1"],
-        "cor_ans" : ["2"],
-        //"decoys" : []
-        "decoys" : [ "1","3","4"]
-    },
-
-    {
-        "question"  : [ "2+2"],
-        "cor_ans" : ["4"],
-        //"decoys" : []
-        "decoys" : [ "1","2","3" ]
-    },
-    {
-        "question"  : [ "3+3" ],
-        "cor_ans" : ["6"],
-        //"decoys" : []
-        "decoys" : [ "3","9","5" ]
-    },
-
-    {
-        "question"  : [ "4+4" ],
-        "cor_ans" : ["8"],
-        //"decoys" : []
-        "decoys" : [ "4","6","10",]
-    },
-    {
-        "question"  : [ "5+5" ],
-        "cor_ans" : ["10"],
-        //"decoys" : []
-        "decoys" : [ "6","8","12",]
-    },
-    {
-        "question"  : [ "6+6" ],
-        "cor_ans" : ["12"],
-        //"decoys" : []
-        "decoys" : [ "8","15","10",]
-    },
-    {
-        "question"  : [ "7+7" ],
-        "cor_ans" : ["14"],
-        //"decoys" : []
-        "decoys" : [ "10","12","16",]
-    },
-    {
-        "question"  : [ "8+8" ],
-        "cor_ans" : ["16"],
-        //"decoys" : []
-        "decoys" : [ "14","18","20",]
-    }
-  ]
-
-  /*if(data.numPlayersInRoom > 20 ){
-    $('#teamSelect').html("<div><button class = 'ccbtn btn-blue btn-simple deductTeamBtn' id = 'deductTeam1' type = 'button'> Team 1</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-red btn-simple' id = 'deductTeam2' type = 'button'>Team 2</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-gray btn-simple' id = 'deductTeam3' type = 'button'>Team 3</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-green btn-simple' id = 'deductTeam4' type = 'button'>Team 4</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-pink btn-simple' id = 'deductTeam5' type = 'button'>Team 5</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-orange btn-simple' id = 'deductTeam6' type = 'button'>Team 6</button></div>");
-  }
-  else if(data.numPlayersInRoom > 16 ){
-    $('#teamSelect').html("<div><button class = 'ccbtn btn-blue btn-simple deductTeamBtn' id = 'deductTeam1' type = 'button'> Team 1</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-red btn-simple' id = 'deductTeam2' type = 'button'>Team 2</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-gray btn-simple' id = 'deductTeam3' type = 'button'>Team 3</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-green btn-simple' id = 'deductTeam4' type = 'button'>Team 4</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-pink btn-simple' id = 'deductTeam5' type = 'button'>Team 5</button></div>");
-  }
-  else if(data.numPlayersInRoom > 11){
-    $('#teamSelect').html("<div><button class = 'ccbtn btn-blue btn-simple deductTeamBtn' id = 'deductTeam1' type = 'button'> Team 1</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-red btn-simple' id = 'deductTeam2' type = 'button'>Team 2</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-gray btn-simple' id = 'deductTeam3' type = 'button'>Team 3</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-green btn-simple' id = 'deductTeam4' type = 'button'>Team 4</button></div>");
-  }
-  else{
-    $('#teamSelect').html("<div><button class = 'ccbtn btn-blue btn-simple deductTeamBtn' id = 'deductTeam1' type = 'button'> Team 1</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-red btn-simple' id = 'deductTeam2' type = 'button'>Team 2</button></div>");
-    $('#teamSelect').append("<div><button class = 'deductTeamBtn ccbtn btn-gray btn-simple' id = 'deductTeam3' type = 'button'>Team 3</button></div>");
-  
-  
-  }*/
