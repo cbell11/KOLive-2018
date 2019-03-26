@@ -413,6 +413,8 @@ jQuery(function($) {
         //$('#gameURL').text('kolive.herokuapp.com');
         $('#gameURL').text('bit.do/ko-live');
         //Analyitcs for this can be found at http://bit.do/ko-live- 
+        // GAME QR CODE - http://chart.apis.google.com/chart?cht=qr&chs=500x500&choe=UTF-8&chld=H%7C0&chl=http://bit.do/ko-live
+
 
         // Show the gameId / room id on screen
         $('#spanNewGameCode').text(App.gameId);
