@@ -95,13 +95,13 @@ html, body {
 }
 
 .title {
-    margin: 0px auto;
+    margin: -20px auto;
     text-align: center;
     width: 100%;
     font-family: 'Quicksand', sans-serif;
     color: #d3a800;
-    font-weight: 500;
-    font-size: 9vw;
+    font-weight: 900;
+    font-size: 8vw;
   }
 
 .buttons {
@@ -124,7 +124,7 @@ html, body {
     color: black;
     font-weight: 400;
     font-size: 2em;
-    margin-top: 1em;
+    margin-top: 1vw;
 }
 
 .createGameWrapper{
@@ -229,14 +229,62 @@ and (max-device-width: 750px) {
 #playerWaitingMessage {
     font-size: .8em;
 }
-#playersWaiting{
+#playersWaiting1, #playersWaiting2, #playersWaiting3,#playersWaiting4, #playersWaiting5, #playersWaiting6{
   font-family: sans-serif;
   font-size: 2vw;
   color: black;
   float: left;
   list-style-type: none;
-  display: inline;
+  text-align: center;
+  display:inline-block;
+  vertical-align: middle;
+  float: none;
 }
+#removePlayer {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+#removePlayer:before{
+  content: '';
+  position: absolute;
+  width: 1%;
+  height: 2px;
+  top: 50%;
+  margin-top: -0.5px;
+  background: transparent;
+}
+ #removePlayer:after{
+   content: '';
+   position: absolute;
+   width: 1%;
+   height: 2px;
+   top: 50%;
+   margin-top: -0.5px;
+   background: black;
+ }
+
+#removePlayer:before {
+  left: -2.5px;
+}
+#removePlayer:after {
+  right: 2.5px;
+  background: black;
+  transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+#removePlayer:hover:before {
+  background: black;
+  width: 100%;
+  transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+#removePlayer:hover:after {
+  background: transparent;
+  width: 100%;
+  transition: 0s;
+}
+
 
 .createGameWrapper #gameURL {
     font-size: 5em;
@@ -380,7 +428,6 @@ and (max-device-width: 750px) {
   margin-right: auto;
   left: 0;
   right: 0;
-
 }
 #preTeamsBtn:hover{
   background-color: #778899;
@@ -884,4 +931,29 @@ margin-top: 10%;
     height: 10%;
     position: fixed;
     bottom: 0;
+  }
+.outer{
+    width:300px;
+    height:200px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin:-100px 0 0 -150px;
+}
+.inner {
+  display: inline-block;
+  color: white;
+  font-size: 2em;
+}
+#wrongAnswer{
+  padding: 50px;
+  background-color: #e84343;
+  text-align: center;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  -webkit-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
+  -moz-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
+  box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
+
 }
