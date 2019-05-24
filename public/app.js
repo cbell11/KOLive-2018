@@ -26,6 +26,7 @@ jQuery(function($) {
       IO.socket.on('connected', IO.onConnected);
       IO.socket.on('newGameCreated', IO.onNewGameCreated);
       IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
+      IO.socket.on('removePlayerName', IO.removePlayerName);
       IO.socket.on('beginPreGame', IO.beginPreGame);
       IO.socket.on('displayPlayerTeams', IO.displayTeams);
       //  IO.socket.on('onTeamsCreated', IO.onTeamsCreated);
@@ -35,6 +36,8 @@ jQuery(function($) {
       IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
       IO.socket.on('hostTeamDeduct', IO.hostTeamDeduct);
       IO.socket.on('playerAddPoints', IO.playerAddPoints);
+      IO.socket.on('playerWrong', IO.playerWrong);
+
       //IO.socket.on('gameOver', IO.addPointsBtn);
       IO.socket.on('gameOver', IO.gameOver);
       IO.socket.on('error', IO.error);
@@ -82,16 +85,26 @@ jQuery(function($) {
       // And on the player's browser, App.Player.updateWaitingScreen is called.
       App[App.myRole].updateWaitingScreen(data);
     },
+    removePlayerName: function(data) {
+      // When a player joins a room, do the updateWaitingScreen funciton.
+      // There are two versions of this function: one for the 'host' and
+      // another for the 'player'.
+      //
+      // So on the 'host' browser window, the App.Host.updateWiatingScreen function is called.
+      // And on the player's browser, App.Player.updateWaitingScreen is called.
+      App[App.myRole].removePlayerName(data);
+    },
     /**
      * Both players have joined the game.
      * @param data
      */
     beginPreGame: function(data) {
-      if (App.myRole === 'Host') {
+      App[App.myRole].createTeams(data);
+      /*if (App.myRole === 'Host') {
         App.Host.createTeams(data);
       } else if (App.myRole === 'Player') {
         App.Player.createTeams(data);
-      }
+      }*/
 
     },
     displayTeams: function(data) {
@@ -122,8 +135,9 @@ jQuery(function($) {
      * @param data
      */
     onNewWordData: function(data) {
+
       // Update the current round
-      App.currentRound = data.round;
+      //App.currentRound = data.round;
       App.teamTotal = data.teamTotal;
 
       // Change the word for the Host and Player
@@ -151,6 +165,9 @@ jQuery(function($) {
     },
     playerAddPoints: function(data) {
       App[App.myRole].addPoints(data);
+    },
+    playerWrong: function(data) {
+      App.Player.playerWrong(data);
     },
 
     /**
@@ -248,6 +265,7 @@ jQuery(function($) {
       App.$player4Game = $('#player4-game-template').html();
       App.$player5Game = $('#player5-game-template').html();
       App.$player6Game = $('#player6-game-template').html();
+      App.$playerWrongTemplate = $('#wrong-answer-template').html();
       App.$playerTeamSelect = $('#player-team-select-template').html();
     },
 
@@ -256,6 +274,7 @@ jQuery(function($) {
      */
     bindEvents: function() {
       // Host
+      App.$doc.on('click', '#removePlayer', App.Host.removePlayer);
       App.$doc.on('click', '#btnCreateGame', App.Host.onCreateClick);
       App.$doc.on('click', '#teamsBtn', App.Host.teamsCreateClick);
       App.$doc.on('click', '#shuffleBtn', App.Host.teamsCreateClick);
@@ -325,11 +344,34 @@ jQuery(function($) {
       /**
        * A reference to the correct answer for the current round.
        */
-      currentCorrectAnswer: '',
+      t1currentCorrectAnswer: '',
+      t2currentCorrectAnswer: '',
+      t3currentCorrectAnswer: '',
+      t4currentCorrectAnswer: '',
+      t5currentCorrectAnswer: '',
+      t6currentCorrectAnswer: '',
+
+
+
 
       /**
        * Handler for the "Start" button on the Title Screen.
        */
+       removePlayer: function() {
+         // console.log('Clicked "Create A Game"');
+         var $s = $(this); // the tapped button
+         //var playerName = $s.val(); // The tapped word*/
+         var playerName = $($s).text();
+
+         // Send the player info and tapped word to the server so
+         // the host can check the answer.
+         var data = {
+           gameId: App.gameId,
+           playerId: App.mySocketId,
+           playerName: playerName,
+         }
+         IO.socket.emit('removePlayer',data);
+       },
       onCreateClick: function() {
         // console.log('Clicked "Create A Game"');
         IO.socket.emit('hostCreateNewGame');
@@ -354,7 +396,10 @@ jQuery(function($) {
         }
         var data = {
           gameId: App.gameId,
-          time: time
+          time: time,
+          teamTotal: App.teamTotal,
+          numPlayersInRoom: App.numPlayersInRoom,
+          intro: true,
         }
         IO.socket.emit('hostRoomFull', data);
       },
@@ -412,7 +457,7 @@ jQuery(function($) {
         // Display the URL on screen
         //$('#gameURL').text('kolive.herokuapp.com');
         $('#gameURL').text('bit.do/ko-live');
-        //Analyitcs for this can be found at http://bit.do/ko-live- 
+        //Analyitcs for this can be found at http://bit.do/ko-live-
         // GAME QR CODE - http://chart.apis.google.com/chart?cht=qr&chs=500x500&choe=UTF-8&chld=H%7C0&chl=http://bit.do/ko-live
 
 
@@ -431,26 +476,62 @@ jQuery(function($) {
         if (App.Host.isNewGame) {
           App.Host.displayNewGameScreen();
         }
-        // Update host screen
-        //$('#playersWaiting')
-        //    .append('<li>')
-        //    .text(data.playerName);
-        $("#playersWaiting").append('<li data-filtertext="' + data.playerName + '"><p>' + data.playerName + '</p></li>');
-
         // Store the new player's data on the Host.
         App.Host.players.push(data);
 
         // Increment the number of players in the room
         App.Host.numPlayersInRoom += 1;
+
+        //Handles the players into columns
+        if (App.Host.numPlayersInRoom < 5) {
+          $("#playersWaiting1").append('<li id = "remove'+data.playerName+'" data-filtertext="' + data.playerName + '"><span id = "removePlayer" value = "'+ data.playerName +'">' + data.playerName + '</span></li>');
+        }
+        else if (App.Host.numPlayersInRoom < 10) {
+          $("#playersWaiting2").append('<li id = "remove'+data.playerName+'" data-filtertext="' + data.playerName + '"><span id = "removePlayer" value = "'+ data.playerName +'">' + data.playerName + '</span></li>');
+        }
+        else if (App.Host.numPlayersInRoom < 15) {
+          $("#playersWaiting3").append('<li id = "remove'+data.playerName+'" data-filtertext="' + data.playerName + '"><span id = "removePlayer" value = "'+ data.playerName +'">' + data.playerName + '</span></li>');
+        }
+        else if (App.Host.numPlayersInRoom < 20) {
+          $("#playersWaiting4").append('<li id = "remove'+data.playerName+'" data-filtertext="' + data.playerName + '"><span id = "removePlayer" value = "'+ data.playerName +'">' + data.playerName + '</span></li>');
+        }
+        else if (App.Host.numPlayersInRoom < 25) {
+          $("#playersWaiting5").append('<li id = "remove'+data.playerName+'" data-filtertext="' + data.playerName + '"><span id = "removePlayer" value = "'+ data.playerName +'">' + data.playerName + '</span></li>');
+        }
+        else {
+          $("#playersWaiting6").append('<li id = "remove'+data.playerName+'" data-filtertext="' + data.playerName + '"><span id = "removePlayer" value = "'+ data.playerName +'">' + data.playerName + '</span></li>');
+        }
+
         //Creates a minimum for the amount of players required
-        //NumberRequired
         if (App.Host.numPlayersInRoom < 4) {
           var playersNeeded = 4 - (App.Host.numPlayersInRoom);
-          $("#createGameContainer").html("<button id = 'preTeamsBtn' class = 'btn btn-primary' value = 'createGame' disabled>Waiting on +" + playersNeeded + " players</button>");
+          $("#createGameContainer").html("<button id = 'preTeamsBtn' class = 'btn btn-primary' value = 'createGame' disabled><p style='margin-top: -8px;'>Waiting on +" + playersNeeded + " players</p></button>");
         } else {
           var currentPlayers = App.Host.numPlayersInRoom;
-          $("#createGameContainer").append("<button id = 'teamsBtn' class = 'btn btn-primary' value = 'createGame'>Start game with " + currentPlayers + " players</button>");
+          $("#createGameContainer").append("<button id = 'teamsBtn' class = 'btn btn-primary' value = 'createGame'><p style='margin-top: -8px;'>Start game with " + currentPlayers + " players</p></button>");
         }
+
+      },
+      removePlayerName: function(data) {
+        $('#remove'+data.playerName+'').remove();
+        for (var i = 0; i < App.Host.players.length; i++) {
+            var obj = App.Host.players[i];
+            if (App.Host.players[i].playerName == data.playerName) {
+                App.Host.players.splice(i, 1);
+            }
+        }
+
+        App.Host.numPlayersInRoom -= 1;
+        if (App.Host.numPlayersInRoom < 4) {
+          var playersNeeded = 4 - (App.Host.numPlayersInRoom);
+          $("#createGameContainer").html("<button id = 'preTeamsBtn' class = 'btn btn-primary' value = 'createGame' disabled><p style='margin-top: -8px;'>Waiting on +" + playersNeeded + " players</p></button>");
+        } else {
+          var currentPlayers = App.Host.numPlayersInRoom;
+          $("#createGameContainer").append("<button id = 'teamsBtn' class = 'btn btn-primary' value = 'createGame'><p style='margin-top: -8px;'>Start game with " + currentPlayers + " players</p></button>");
+        }
+
+
+
 
       },
       createTeams: function(data) {
@@ -475,14 +556,6 @@ jQuery(function($) {
           for (var i = 0; i < arrayLength; i++) {
             randomNames[i] = App.Host.players[i].playerName;
           }
-
-          /*TEST ARRAY - Delete both statements assigning values to randomNames and n
-          randomNames = [
-          'Chandler', 'Emily', 'Colby', 'Abby','Stacey',
-          'Lisa', 'Phil', 'Amber', 'Lucky', 'Katie',
-          'Sonya', 'Darrell', 'John', 'Dan', 'Proud',
-          'Ben', 'Gerry','Bob','Augustus','Cher',
-           'Arnold','Tan','Adam','Kenious']//'Barb'];*/
           n = randomNames.length;
           shuffle(randomNames);
 
@@ -793,7 +866,7 @@ jQuery(function($) {
           $('#hostWord').text('')
           App.doTextFit('#hostWord');
           roundCountDown(data);
-          IO.socket.emit('hostCountdownFinished', App.gameId);
+          IO.socket.emit('hostCountdownFinished', data);
 
         });
         // Begin the on-screen round countdown timer
@@ -802,7 +875,7 @@ jQuery(function($) {
           var time = (data.time * 60);
 
           progress(time, time, $('#progressBar'));
-          //progress(30, 30, $('#progressBar'));
+          //TIME FIXprogress(30, 30, $('#progressBar'));
 
           function progress(timeleft, timetotal, $element) {
             var progressBarWidth = timeleft * $element.width() / timetotal;
@@ -851,11 +924,22 @@ jQuery(function($) {
       newWord: function(data) {
         // Insert the new word into the DOM
         //$('#hostWord').hide();
-
+        /*
         // Update the data for the current round
         App.Host.currentCorrectAnswer = data.answer;
-        App.Host.currentRound = data.round;
+        App.Host.currentRound = data.round;*/// DEBUG:
         $('#gameCodeDisplay').text(App.gameId);
+
+        App.Host.t1currentCorrectAnswer = data.team[0].answer;
+        App.Host.t2currentCorrectAnswer = data.team[1].answer;
+        App.Host.t3currentCorrectAnswer = data.team[2].answer;
+        App.Host.t4currentCorrectAnswer = data.team[3].answer;
+        App.Host.t5currentCorrectAnswer = data.team[4].answer;
+        App.Host.t6currentCorrectAnswer = data.team[5].answer;
+
+
+
+
       },
 
       /**
@@ -881,32 +965,257 @@ jQuery(function($) {
           var team4Score = $pScore4.text();
           var team5Score = $pScore5.text();
           var team6Score = $pScore6.text()
-
-          // Advance player's score if it is correct
-          if (App.Host.currentCorrectAnswer === data.answer) {
-            var data = {
-              gameId: data.gameId,
-              playerId: data.playerId,
-              answer: data.answer,
-              round: data.round,
-              teamTotal: data.teamTotal,
-              playerName: data.playerName,
-              team1Score: team1Score,
-              team2Score: team2Score,
-              team3Score: team3Score,
-              team4Score: team4Score,
-              team5Score: team5Score,
-              team6Score: team6Score,
+          var pTeam = data.team;
+          if (pTeam == 1) {
+            // Advance player's score if it is correct
+            if (App.Host.t1currentCorrectAnswer === data.answer) {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              IO.socket.emit('playerCorrect', data);
+              // Notify the server to start the next round.
+              //IO.socket.emit('hostNextRound', data);
             }
-            IO.socket.emit('playerCorrect', data);
+            else {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                playerTeam: data.team,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              //Need to emit something to the player to inform of incorrect answer
+              IO.socket.emit('playerIncorrect', data);
+            }
+          }
+          else if (pTeam == 2) {
+            // Advance player's score if it is correct
+            if (App.Host.t2currentCorrectAnswer === data.answer) {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              IO.socket.emit('playerCorrect', data);
+              // Notify the server to start the next round.
+              //IO.socket.emit('hostNextRound', data);
+            } else {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                playerTeam: data.team,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              //Need to emit something to the player to inform of incorrect answer
+              IO.socket.emit('playerIncorrect', data);
 
-            // Notify the server to start the next round.
-            //IO.socket.emit('hostNextRound', data);
+            }
+          }
+          else if (pTeam == 3) {
+            // Advance player's score if it is correct
+            if (App.Host.t3currentCorrectAnswer === data.answer) {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              IO.socket.emit('playerCorrect', data);
+              // Notify the server to start the next round.
+              //IO.socket.emit('hostNextRound', data);
+            } else {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                playerTeam: data.team,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              //Need to emit something to the player to inform of incorrect answer
+              IO.socket.emit('playerIncorrect', data);
 
-          } else {
+            }
+          }
+          else if (pTeam == 4) {
+            // Advance player's score if it is correct
+            if (App.Host.t4currentCorrectAnswer === data.answer) {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              IO.socket.emit('playerCorrect', data);
+              // Notify the server to start the next round.
+              //IO.socket.emit('hostNextRound', data);
+            } else {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                playerTeam: data.team,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              //Need to emit something to the player to inform of incorrect answer
+              IO.socket.emit('playerIncorrect', data);
+
+            }
+          }
+          else if (pTeam == 5) {
+            // Advance player's score if it is correct
+            if (App.Host.t5currentCorrectAnswer === data.answer) {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              IO.socket.emit('playerCorrect', data);
+              // Notify the server to start the next round.
+              //IO.socket.emit('hostNextRound', data);
+            } else {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                playerTeam: data.team,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              //Need to emit something to the player to inform of incorrect answer
+              IO.socket.emit('playerIncorrect', data);
+
+            }
+          }
+          else if (pTeam == 6) {
+            // Advance player's score if it is correct
+            if (App.Host.t6currentCorrectAnswer === data.answer) {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              IO.socket.emit('playerCorrect', data);
+              // Notify the server to start the next round.
+              //IO.socket.emit('hostNextRound', data);
+            } else {
+              var data = {
+                gameId: data.gameId,
+                playerId: data.playerId,
+                answer: data.answer,
+                round: data.round,
+                teamTotal: data.teamTotal,
+                playerName: data.playerName,
+                playerTeam: data.team,
+                team1Score: team1Score,
+                team2Score: team2Score,
+                team3Score: team3Score,
+                team4Score: team4Score,
+                team5Score: team5Score,
+                team6Score: team6Score,
+              }
+              //Need to emit something to the player to inform of incorrect answer
+              IO.socket.emit('playerIncorrect', data);
+
+            }
+          }
 
           }
-        }
+
+
 
       },
       teamDeduct: function(data) {
@@ -1099,7 +1408,7 @@ jQuery(function($) {
             .html("<div class='gameOver'>It's a Tie</div>")
             .append(
               // Create a button to start a new game.
-              $('<button>Start Again</button>')
+              $('<button>Start A New Game</button>')
               .attr('id', 'btnHostRestart')
               .addClass('btn')
               .addClass('btnGameOver')
@@ -1110,7 +1419,7 @@ jQuery(function($) {
             .html('<div class="gameOver">' + winner + ' Wins!</div>')
             .append(
               // Create a button to start a new game.
-              $('<button>Start Again</button>')
+              $('<button>Start A New Game</button>')
               .attr('id', 'btnHostRestart')
               .addClass('btn')
               .addClass('btnGameOver')
@@ -1164,6 +1473,8 @@ jQuery(function($) {
       teamTotal: 0,
 
       currentCorrectAnswer: '',
+
+      teamReset: [],
 
 
       /**
@@ -1224,7 +1535,8 @@ jQuery(function($) {
           answer: answer,
           round: App.currentRound,
           teamTotal: App.teamTotal,
-          playerName: App.Player.myName
+          team: App.Player.team,
+          playerName: App.Player.myName,
         }
         IO.socket.emit('playerAnswer', data);
       },
@@ -1248,17 +1560,24 @@ jQuery(function($) {
         }
         if (App.Player.team == 1) {
           App.$gameArea.html(App.$player1Game);
+          $('#player-1-body').show();
         } else if (App.Player.team == 2) {
           App.$gameArea.html(App.$player2Game);
+          $('#player-2-body').show();
         } else if (App.Player.team == 3) {
           App.$gameArea.html(App.$player3Game);
+          $('#player-3-body').show();
         } else if (App.Player.team == 4) {
           App.$gameArea.html(App.$player4Game);
+          $('#player-4-body').show();
         } else if (App.Player.team == 5) {
           App.$gameArea.html(App.$player5Game);
+          $('#player-5-body').show();
         } else if (App.Player.team == 6) {
           App.$gameArea.html(App.$player6Game);
+          $('#player-6-body').show();
         }
+
 
         //App.$gameArea.html(App.$player1Game);
         IO.socket.emit('teamDeduct', data);
@@ -1292,6 +1611,12 @@ jQuery(function($) {
               .text('Joined Game ' + data.gameId + '. Please wait for game to begin.');*/
           $('#gameArea')
             .html('<div class="gameOver"><h2 id = "waitingFont">Waiting for the game to start...<h2></div>');
+        }
+      },
+      removePlayerName: function(data) {
+        if (data.playerName == App.Player.myName) {
+          App.$gameArea.html(App.$templateJoinGame);
+          socket.disconnect();
         }
       },
 
@@ -1392,7 +1717,9 @@ jQuery(function($) {
           }
           //App.$gameArea.html(App.$player1Game);
         }
-        setTimeout(playerGameDisplay, 4000);
+        //Timeout Before
+        setTimeout(playerGameDisplay, 1000);
+
         //App.$gameArea.html(App.$playerGame);
       },
 
@@ -1401,8 +1728,44 @@ jQuery(function($) {
        * @param data{{round: *, word: *, answer: *, list: Array}}
        */
       newWord: function(data) {
+        var list;
+        var question;
+        //Gives Time for Questions and Answers to Populate Correctly
+        setTimeout(populate, 1000);
+        function populate(){
+        if (App.Player.team == 1) {
+          App.Player.currentCorrectAnswer = data.team[0].answer;
+          list = data.team[0].list;
+          question = data.team[0].question;
+        }
+        else if (App.Player.team == 2) {
+          App.Player.currentCorrectAnswer = data.team[1].answer;
+          list = data.team[1].list;
+          question = data.team[1].question;
+        }
+        else if (App.Player.team == 3) {
+          App.Player.currentCorrectAnswer = data.team[2].answer;
+          list = data.team[2].list;
+          question = data.team[2].question;
+        }
+        else if (App.Player.team == 4) {
+          App.Player.currentCorrectAnswer = data.team[3].answer;
+          list = data.team[3].list;
+          question = data.team[3].question;
+        }
+        else if (App.Player.team == 5) {
+          App.Player.currentCorrectAnswer = data.team[3].answer;
+          list = data.team[4].list;
+          question = data.team[4].question;
+        }
+        else if (App.Player.team == 6) {
+          App.Player.currentCorrectAnswer = data.team[5].answer;
+          list = data.team[5].list;
+          question = data.team[5].question;
+        }
+
         // Create an unordered list element
-        App.Player.currentCorrectAnswer = data.answer;
+      //  App.Player.currentCorrectAnswer = data.t1.answer;
 
         var $list = $('<ul/>').attr('id', 'ulAnswers').attr('id', 'answer_bank');
 
@@ -1410,7 +1773,7 @@ jQuery(function($) {
 
         // Insert a list item for each word in the word list
         // received from the server.
-        $.each(data.list, function() {
+        $.each(list, function() {
           $list //  <ul> </ul>
             .append($('<li/>').attr('style', 'margin-bottom: 15px;') //  <ul> <li> </li> </ul>
               .append($('<button/>') //  <ul> <li> <button> </button> </li> </ul>
@@ -1425,9 +1788,10 @@ jQuery(function($) {
         // Insert the list onto the screen.
         $('.playerName').text(App.Player.myName)
         //$('.playerName').text(data.team1.length)
-        $('#playerWord').text(data.question);
+        $('#playerWord').text(question);
         $('#answerDiv').html($list);
         //$('#gameArea').html($list);
+      }
       },
       addPoints: function(data) {
         var $pScore = $('.score');
@@ -1588,6 +1952,67 @@ jQuery(function($) {
 
         }
       },
+      playerWrong: function(data) {
+        if (App.Player.team == data.playerTeam) {
+          //Displays Wrong Answer Notification
+          if (App.Player.team == 1) {
+            $('#player-1-body').hide();
+            $('#incorrectMessage').show();
+            setTimeout(showScreen, 4000);
+            function showScreen(){
+              $('#incorrectMessage').hide();
+              $('#player-1-body').show();
+            }
+          }
+          if (App.Player.team == 2) {
+            $('#player-2-body').hide();
+            $('#incorrectMessage').show();
+            setTimeout(showScreen, 4000);
+            function showScreen(){
+              $('#incorrectMessage').hide();
+              $('#player-2-body').show();
+            }
+          }
+          if (App.Player.team == 3) {
+            $('#player-3-body').hide();
+            $('#incorrectMessage').show();
+            setTimeout(showScreen, 4000);
+            function showScreen(){
+              $('#incorrectMessage').hide();
+              $('#player-3-body').show();
+            }
+          }
+          if (App.Player.team == 4) {
+            $('#player-4-body').hide();
+            $('#incorrectMessage').show();
+            setTimeout(showScreen, 4000);
+            function showScreen(){
+              $('#incorrectMessage').hide();
+              $('#player-4-body').show();
+            }
+          }
+          if (App.Player.team == 5) {
+            $('#player-5-body').hide();
+            $('#incorrectMessage').show();
+            setTimeout(showScreen, 4000);
+            function showScreen(){
+              $('#incorrectMessage').hide();
+              $('#player-5-body').show();
+            }
+          }
+          if (App.Player.team == 6) {
+            $('#player-6-body').hide();
+            $('#incorrectMessage').show();
+            setTimeout(showScreen, 4000);
+            function showScreen(){
+              $('#incorrectMessage').hide();
+              $('#player-6-body').show();
+            }
+            //App.Player.teamReset.push(4);
+          }
+        }
+
+      },
       addPointsBtn: function(data) {
         $('#w3-teamDeduct-row-3').append("<div class='w3-col s12 w3-center' id = 'addPointsDiv'><button class='deductTeamBtn ccbtn btn-success btn-simple btn-sq-lg' id='addPoints' type='button' disabled>Add Points</button></div>");
         IO.socket.emit('hostNextRound', data);
@@ -1599,14 +2024,14 @@ jQuery(function($) {
       endGame: function() {
         console.log('Player end Game...');
         $('#gameArea')
-          .html('<div class="gameOver">Game Over!</div>')
+          .html('<div class="gameOver">Game Over!</div>')/*
           .append(
             // Create a button to start a new game.
             $('<button>Start Again</button>')
             .attr('id', 'btnPlayerRestart')
             .addClass('btn')
             .addClass('btnGameOver')
-          );
+          );*/
       }
     },
 
