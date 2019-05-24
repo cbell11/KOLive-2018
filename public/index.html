@@ -34,29 +34,26 @@
     <!-- This is where the templates defined below will be used -->
   </div>
   <!-- Main Title Screen that appears when the page loads for the first time -->
-  <script id="intro-screen-template" type="text/template">
+  <!--<script id="intro-screen-template" type="text/template">
 
-    <div class="titleWrapper">
-
-      <div class="title">
-        KNOCKOUT
+    <div class="titleWrapper">oo
       </div>
       <br><br><br><br>
       <div class="buttons">
-        <!-- Experimenting Here -->
-        <!--<button id="btnCreateGame" class="btn left">CREATE</button>
-        <button id="btnJoinGame" class="btn right">JOIN</button>-->
+        <button id="btnJoinGame" class="btn right">JOIN</button>
         <div style="clear:both"></div>
       </div>
 
 
     </div>
 
-  </script>
+  </script>-->
   <!-- This screen appears when a user clicks "CREATE" on the Title Screen -->
   <script id="create-game-template" type="text/template">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <main style = 'background-color: ;'>
     <div class="title">
-      KNOCKOUT
+    Knockout
     </div>
     <div class="createGameWrapper">
 
@@ -65,14 +62,38 @@
 
       <div class="info">2. Then enter the following Game ID:</div>
       <div id="spanNewGameCode" class="gameId">Error!</div>
-      <div style = 'float: left; margin-top: 60px; margin-left: 40px;'>
-        <ul id= 'playersWaiting'>
-        </ul>
-      </div>
       <div id = 'createGameContainer'>
-      <button id = 'preTeamsBtn' class = 'btn btn-primary' value = 'createGame' disabled>Waiting on +4 Students</button>
+      <button id = 'preTeamsBtn' class = 'btn btn-primary' value = 'createGame' disabled><p style="margin-top: -8px;">Waiting on +4 Students<p></button>
     </div>
+          <div class="row" style=" text-align:center; margin:80px auto; width: 100%; margin-left: -2%;">
+            <div class="col-md">
+              <ul id= 'playersWaiting1'>
+              </ul>
+            </div>
+            <div class="col-md">
+              <ul id= 'playersWaiting2'>
+              </ul>
+            </div>
+            <div class="col-md">
+              <ul id= 'playersWaiting3'>
+              </ul>
+            </div>
+            <div class="col-md">
+              <ul id= 'playersWaiting4'>
+              </ul>
+            </div>
+            <div class="col-md">
+              <ul id= 'playersWaiting5'>
+              </ul>
+            </div>
+            <div class="col-md">
+              <ul id= 'playersWaiting6'>
+              </ul>
+            </div>
+
+          </div>
     </div>
+  </main>
   </script>
   <!-- This scrreen appears when a player clicks "JOIN" on the Title Screen -->
   <script id="join-game-template" type="text/template">
@@ -204,13 +225,16 @@
         <span class="playerName"></span><span class="score">Team 1</span>
       </div>
     </div>
+    <div class = 'outer' id = 'incorrectMessage' hidden>
+        <div class = 'inner' id ='wrongAnswer'>Ouch! Sorry wrong answer! </div>
+    </div>
+    <div id = 'player-1-body'>
     <div id="playerWordDiv">
       <div id="playerWord"></div>
     </div>
     <div id = 'answerDiv'>
     </div>
-
-
+  </div>
   </script>
   <script id="player2-game-template" type="text/template">
     <div id="playerScores">
@@ -218,6 +242,10 @@
         <span class="playerName"></span><span class="score">Team 2</span>
       </div>
     </div>
+    <div class = 'outer' id = 'incorrectMessage' hidden>
+        <div class = 'inner' id ='wrongAnswer'>Ouch! Sorry wrong answer! </div>
+    </div>
+    <div id = 'player-2-body'>
     <div id="playerWordDiv">
       <div id="playerWord"></div>
     </div>
@@ -225,6 +253,7 @@
 
     <div id = 'answerDiv'>
     </div>
+  </div>
 
 
   </script>
@@ -234,6 +263,10 @@
         <span class="playerName"></span><span class="score">Team 3</span>
       </div>
     </div>
+    <div class = 'outer' id = 'incorrectMessage' hidden>
+        <div class = 'inner' id ='wrongAnswer'>Ouch! Sorry wrong answer! </div>
+    </div>
+    <div id = 'player-3-body'>
     <div id="playerWordDiv">
       <div id="playerWord"></div>
     </div>
@@ -241,6 +274,7 @@
 
     <div id = 'answerDiv'>
     </div>
+  </div>
 
 
   </script>
@@ -250,6 +284,10 @@
       <span class="playerName"></span><span class="score">Team 4</span>
       </div>
     </div>
+    <div class = 'outer' id = 'incorrectMessage' hidden>
+        <div class = 'inner' id ='wrongAnswer'>Ouch! Sorry wrong answer! </div>
+    </div>
+    <div id = 'player-4-body'>
     <div id="playerWordDiv">
       <div id="playerWord"></div>
     </div>
@@ -257,31 +295,40 @@
 
     <div id = 'answerDiv'>
     </div>
+  </div>
 
 
   </script>
   <script id="player5-game-template" type="text/template">
+
     <div id="playerScores">
       <div id="playerScore" class="playerScore">
         <span class="playerName"></span><span class="score">Team 5</span>
       </div>
     </div>
+    <div class = 'outer' id = 'incorrectMessage' hidden>
+        <div class = 'inner' id ='wrongAnswer'>Ouch! Sorry wrong answer! </div>
+    </div>
+    <div id = 'player-5-body'>
     <div id="playerWordDiv">
       <div id="playerWord"></div>
     </div>
-
-
     <div id = 'answerDiv'>
     </div>
+  </div>
 
 
   </script>
   <script id="player6-game-template" type="text/template">
-    <div id="playerScores"> Team 6
+    <div id="playerScores">
       <div id="playerScore" class="playerScore">
         <span class="playerName"></span><span class="score">Team 6</span>
       </div>
     </div>
+    <div class = 'outer' id = 'incorrectMessage' hidden>
+        <div class = 'inner' id ='wrongAnswer'>Ouch! Sorry wrong answer! </div>
+    </div>
+    <div id = 'player-6-body'>
     <div id="playerWordDiv">
       <div id="playerWord"></div>
     </div>
@@ -289,9 +336,17 @@
 
     <div id = 'answerDiv'>
     </div>
+  </div>
 
 
   </script>
+  <script id="wrong-answer-template" type="text/template">
+    <div id="playerWordDiv">
+      <div id="playerWord">Ouch Wrong Answer!</div>
+    </div>
+
+  </script>
+
   <script id="player-team-select-template" type="text/template">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -324,5 +379,5 @@
   <script src="/socket.io/socket.io.js"></script>
   <!-- app.js is where all the client-side Anagrammatix game logic -->
   <script src="app.js"></script>
-</body>
+</div>
 </html>
