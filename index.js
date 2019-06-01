@@ -11,11 +11,11 @@ var kogame = require('./ko_game');
 
 // Create a simple Express application
 //app.configure(function() {
-// Turn down the logging activity
+    // Turn down the logging activity
 app.use(morgan('dev'));
 
-// Serve static html, js, css, and image files from the 'public' directory
-app.use(express.static(path.join(__dirname,'public')));
+    // Serve static html, js, css, and image files from the 'public' directory
+  app.use(express.static(path.join(__dirname,'public')));
 //});
 
 // Create a Node.js based http server on port 8080
