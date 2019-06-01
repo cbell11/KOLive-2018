@@ -2,8 +2,6 @@ var io;
 var gameSocket;
 var ko_id;
 var wordPool = [];
-var teamTotal = 0 ;
-var team = [];
 
 /**
  * This function is called by index.js to initialize a new game instance.
@@ -15,13 +13,9 @@ exports.initGame = function(sio, socket){
     io = sio;
     gameSocket = socket;
     gameSocket.emit('connected', { message: "You are connected!" });
-    gameSocket.on('disconnect', function() {
-      console.log('Someone disconnected');
-    });
 
     // Host Events
     gameSocket.on('hostCreateNewGame', hostCreateNewGame);
-    gameSocket.on('removePlayer', removePlayer);
     gameSocket.on('hostPreGame', hostPreGame);
     gameSocket.on('hostRoomFull', hostPrepareGame);
     gameSocket.on('displayTeams', displayTeams);
@@ -38,11 +32,6 @@ exports.initGame = function(sio, socket){
     gameSocket.on('teamDeduct', teamDeduct);
     gameSocket.on('playerRestart', playerRestart);
     gameSocket.on('playerCorrect', playerCorrect);
-    gameSocket.on('playerIncorrect', playerIncorrect);
-
-
-
-
 
 
 }
@@ -70,11 +59,6 @@ function hostCreateNewGame() {
     wordPool.length = 0;
 
 };
-function removePlayer(data) {
-  //this.emit('beginPreGame', data);
-  console.log('Player "'+data.playerName+'" Being Removed...');
-  io.sockets.in(data.gameId).emit('removePlayerName',data);
-};
 function hostPreGame(data) {
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
@@ -93,9 +77,7 @@ function hostPrepareGame(data) {
     var data = {
         mySocketId : sock.id,
         gameId : data.gameId,
-        numPlayersInRoom: data.numPlayersInRoom,
-        time : data.time,
-        intro: data.intro,
+        time : data.time
     };
     //console.log("All Players Present. Preparing game...");
     io.sockets.in(data.gameId).emit('beginNewGame', data);
@@ -105,13 +87,12 @@ function displayTeams(data) {
     ko_id = data.ko_id;
     console.log("All Players Present. Preparing Teams...");
     console.log("Team Total: " + data.teamTotal);
-    teamTotal = data.teamTotal;
-    /*console.log("Team 1 p1: " + data.team1[0]);
+    console.log("Team 1 p1: " + data.team1[0]);
     console.log("Team 1 p2: " + data.team1[1]);
     console.log("Team 2 p1: " + data.team2[0]);
     console.log("Team 2 p2: " + data.team2[1]);
     console.log("Team 3 p1: " + data.team3[0]);
-    console.log("Team 3 p2: " + data.team3[1]);*/
+    console.log("Team 3 p2: " + data.team3[1]);
     io.sockets.in(data.gameId).emit('displayPlayerTeams', data);
     populateQuestionPool(ko_id);
 
@@ -120,7 +101,14 @@ function displayTeams(data) {
 function hostTeamsSet(data) {
 
     console.log("All Players Present. Preparing Teams...");
-
+    console.log(data.ko_id);
+    console.log("Team Total: " + data.teamTotal);
+    console.log("Team 1 p1: " + data.team1[0]);
+    console.log("Team 1 p2: " + data.team1[1]);
+    console.log("Team 2 p1: " + data.team2[0]);
+    console.log("Team 2 p2: " + data.team2[1]);
+    console.log("Team 3 p1: " + data.team3[0]);
+    console.log("Team 3 p2: " + data.team3[1]);
 
 
     ko_id = data.ko_id;
@@ -134,15 +122,10 @@ function hostTeamsSet(data) {
  * The Countdown has finished, and the game begins!
  * @param gameId The game ID / room ID
  */
-function hostStartGame(data) {
-    console.log('Game Started with '+teamTotal+' teams.');
-
-
+function hostStartGame(gameId) {
+    console.log('Game Started.');
     //io.sockets.in(data.gameId).emit('playerGameStarted',data);
-
-    sendWord(0,data.gameId,teamTotal);
-
-    //sendWord(0,data.gameId);
+    sendWord(0,gameId);
 };
 
 /**
@@ -151,7 +134,6 @@ function hostStartGame(data) {
  */
 
 function hostNextRound(data) {
-
     if(data.round < wordPool.length ){
         // Send a new set of words back to the host and players.
         sendWord(data.round, data.gameId);
@@ -233,20 +215,13 @@ function teamDeduct(data) {
 
     // The player's answer is attached to the data object.  \
     // Emit an event with the answer so it can be checked by the 'Host'
-    io.sockets.in(data.gameId).emit('finalTeamDeduct', data);
+    io.sockets.in(data.gameId).emit('hostTeamDeduct', data);
 }
 function playerCorrect(data) {
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
     //this.emit('beginPreGame', data);
     io.sockets.in(data.gameId).emit('playerAddPoints', data);
-
-}
-function playerIncorrect(data) {
-
-    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    //this.emit('beginPreGame', data);
-    io.sockets.in(data.gameId).emit('playerWrong', data);
 
 }
 
@@ -274,32 +249,8 @@ function playerRestart(data) {
  * @param wordPoolIndex
  * @param gameId The room identifier
  */
-function sendWord(wordPoolIndex, gameId, teamTotal) {
-    console.log('Test 1 tt:' + teamTotal);
-
-    var data = getWordData(wordPoolIndex,teamTotal);
-    if (teamTotal >= 3) {
-      console.log('t1 q: ' + data.team[0].question);
-      console.log('t1 a: ' + data.team[0].answer);
-
-      console.log('t2 q: ' + data.team[1].question);
-      console.log('t2 a: ' + data.team[1].answer);
-
-      console.log('t3 q: ' + data.team[2].question);
-      console.log('t3 a: ' + data.team[2].answer);
-    }
-    if (teamTotal >= 4) {
-      console.log('t4 q: ' + data.team[3].question);
-      console.log('t4 a: ' + data.team[3].answer);
-    }
-    if (teamTotal >= 5) {
-      console.log('t5 q: ' + data.team[4].question);
-      console.log('t5 a: ' + data.team[4].answer);
-    }
-    if (teamTotal >= 6) {
-      console.log('t6 q: ' + data.team[5].question);
-      console.log('t6 a: ' + data.team[5].answer);
-    }
+function sendWord(wordPoolIndex, gameId) {
+    var data = getWordData(wordPoolIndex);
     io.sockets.in(data.gameId).emit('newWordData', data);
 }
 
@@ -310,22 +261,12 @@ function sendWord(wordPoolIndex, gameId, teamTotal) {
  * @param i The index of the wordPool.
  * @returns {{round: *, word: *, answer: *, list: Array}}
  */
-function getWordData(i, teamTotal){
+function getWordData(i){
     // Randomize the order of the available words.
     // The first element in the randomized array will be displayed on the host screen.
     // The second element will be hidden in a list of decoys as the correct answer
 
-  var wordData = {
-        teamTotal : teamTotal,
-        team : []
-    };
-    var t1 = {};
-    var t2 = {};
-    var t3 = {};
-    var t4 = {};
-    var t5 = {};
-    var t6 = {};
-    for (var y = 0; y < 6; y++){
+
     //Shuffles Questions
     shuffle(wordPool);
 
@@ -371,106 +312,17 @@ function getWordData(i, teamTotal){
         ret_arr.push(key);
     }
     return ret_arr;
-    }
-if (y == 0) {
-  t1 = {
-    round: i,
-    teamTotal: teamTotal,
-    question : question[0],   // Displayed Question
-    answer : cor_answer[0], // Correct Answer
-    list : decoys      // Word list for player (decoys and answer)
-  };
-  console.log('team 1 set updated');
-}
-else if (y == 1) {
-  t2 = {
-    round: i,
-    teamTotal: teamTotal,
-    question : question[0],   // Displayed Question
-    answer : cor_answer[0], // Correct Answer
-    list : decoys      // Word list for player (decoys and answer)
-  };
-  console.log('team 2 set updated');
-}
-else if (y == 2) {
-  t3 = {
-    round: i,
-    teamTotal: teamTotal,
-    question : question[0],   // Displayed Question
-    answer : cor_answer[0], // Correct Answer
-    list : decoys      // Word list for player (decoys and answer)
-  };
-  console.log('team 3 set updated');
-}
-else if (y == 3) {
-  t4 = {
-    round: i,
-    teamTotal: teamTotal,
-    question : question[0],   // Displayed Question
-    answer : cor_answer[0], // Correct Answer
-    list : decoys      // Word list for player (decoys and answer)
-  };
-  console.log('team 4 set updated');
-}
-else if (y == 4) {
-  t5 = {
-    round: i,
-    teamTotal: teamTotal,
-    question : question[0],   // Displayed Question
-    answer : cor_answer[0], // Correct Answer
-    list : decoys      // Word list for player (decoys and answer)
-  };
-  console.log('team 5 set updated');
-}
-else if (y == 5) {
-  t6 = {
-    round: i,
-    teamTotal: teamTotal,
-    question : question[0],   // Displayed Question
-    answer : cor_answer[0], // Correct Answer
-    list : decoys      // Word list for player (decoys and answer)
-  };
-  console.log('team 6 set updated');
 }
 
-}
-
-  /*  // Package the words into a single object.
+    // Package the words into a single object.
     var wordData = {
-        team : [{
-            round: i,
-            teamTotal: teamTotal,
-            question : question[0],   // Displayed Question
-            answer : cor_answer[0], // Correct Answer
-            list : decoys      // Word list for player (decoys and answer)
-          },
-          {
-              round: i,
-              teamTotal: teamTotal,
-              question : question[1],   // Displayed Question
-              answer : cor_answer[1], // Correct Answer
-              list : decoys      // Word list for player (decoys and answer)
-            },
-            {
-                round: i,
-                teamTotal: teamTotal,
-                question : question[2],   // Displayed Question
-                answer : cor_answer[2], // Correct Answer
-                list : decoys      // Word list for player (decoys and answer)
-              },
-              {
-                  round: i,
-                  teamTotal: teamTotal,
-                  question : question[3],   // Displayed Question
-                  answer : cor_answer[3], // Correct Answer
-                  list : decoys      // Word list for player (decoys and answer)
-                },]
-    };*/
-    wordData = {
-          teamTotal : teamTotal,
-          team : [t1, t2, t3, t4, t5, t6]
-      };
-  return wordData;
+        round: i,
+        question : question[0],   // Displayed Question
+        answer : cor_answer[0], // Correct Answer
+        list : decoys      // Word list for player (decoys and answer)
+    };
+
+    return wordData;
 }
 /*
  * Javascript implementation of Fisher-Yates shuffle algorithm
@@ -503,23 +355,22 @@ function shuffle(sourceArray) {
 function populateQuestionPool(ko_id){
   var mysql = require('mysql');
   var express = require('express');
-  /*Local Host Setup*/
+  /*Local Host Setup
   var con = mysql.createConnection({
      host: "localhost",
      port: "3306",
      user: "root",
      password: "",
      database: "loginsystem",
-   });
+   });*/
      /*Online Setup*/
-     /*
      var con = mysql.createConnection({
       host: "127.0.0.1",
       port: "3306",
       user: "knockoy5_cbell11",
       password: "Chandler0522!",
       database: "knockoy5_WPZEL",
-    })*/
+    })
    con.connect(function(err) {
       if (err) throw err;
       console.log("Connected to mysql!");
@@ -542,3 +393,46 @@ function populateQuestionPool(ko_id){
 
      });
 }
+/*var wordPool = [
+     {
+         "question"  : [ "1+1"],
+         "cor_ans" : ["2"],
+         "decoys" : []
+     },
+     {
+         "question"  : [ "2+2"],
+         "cor_ans" : ["4"],
+         "decoys" : []
+     },
+     {
+         "question"  : [ "3+3" ],
+         "cor_ans" : ["6"],
+         "decoys" : []
+     },
+     {
+         "question"  : [ "4+4" ],
+         "cor_ans" : ["8"],
+         "decoys" : []
+     },
+     {
+         "question"  : [ "5+5" ],
+         "cor_ans" : ["10"],
+         "decoys" : []
+     },
+     {
+         "question"  : [ "6+6" ],
+         "cor_ans" : ["12"],
+         "decoys" : []
+     },
+     {
+         "question"  : [ "7+7" ],
+         "cor_ans" : ["14"],
+         "decoys" : []
+     },
+     {
+         "question"  : [ "8+8" ],
+         "cor_ans" : ["16"],
+         "decoys" : []
+     }
+   ]
+*/
