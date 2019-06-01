@@ -940,13 +940,6 @@ margin-top: 10%;
     top:50%;
     margin:-100px 0 0 -150px;
 }
-.outer2{
-    position:absolute;
-    left:50%;
-    top:0%;
-    margin-top: 10px;
-    margin-left: -350px;
-}
 .inner {
   display: inline-block;
   color: white;
@@ -962,26 +955,5 @@ margin-top: 10%;
   -webkit-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
   -moz-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
   box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
-}
-#negativePoints{
-  padding: 0px 50px;
-  background-color: #fff;
-  color: red;
-  text-align: center;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  -webkit-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
-  -moz-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
-  box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-}
 
-input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
 }
