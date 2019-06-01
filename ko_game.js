@@ -15,6 +15,9 @@ exports.initGame = function(sio, socket){
     io = sio;
     gameSocket = socket;
     gameSocket.emit('connected', { message: "You are connected!" });
+    gameSocket.on('disconnect', function() {
+      console.log('Someone disconnected');
+    });
 
     // Host Events
     gameSocket.on('hostCreateNewGame', hostCreateNewGame);
@@ -36,6 +39,9 @@ exports.initGame = function(sio, socket){
     gameSocket.on('playerRestart', playerRestart);
     gameSocket.on('playerCorrect', playerCorrect);
     gameSocket.on('playerIncorrect', playerIncorrect);
+
+
+
 
 
 
@@ -227,7 +233,7 @@ function teamDeduct(data) {
 
     // The player's answer is attached to the data object.  \
     // Emit an event with the answer so it can be checked by the 'Host'
-    io.sockets.in(data.gameId).emit('hostTeamDeduct', data);
+    io.sockets.in(data.gameId).emit('finalTeamDeduct', data);
 }
 function playerCorrect(data) {
 
@@ -497,7 +503,8 @@ function shuffle(sourceArray) {
 function populateQuestionPool(ko_id){
   var mysql = require('mysql');
   var express = require('express');
-  /*Local Host Setup
+  /*Local Host Setup*/
+    /*
   var con = mysql.createConnection({
      host: "localhost",
      port: "3306",
@@ -506,6 +513,7 @@ function populateQuestionPool(ko_id){
      database: "loginsystem",
    });*/
      /*Online Setup*/
+     
      var con = mysql.createConnection({
       host: "127.0.0.1",
       port: "3306",
