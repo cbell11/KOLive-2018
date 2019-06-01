@@ -14,8 +14,9 @@ jQuery(function($) {
      * to the Socket.IO server
      */
     init: function() {
-      IO.socket = io.connect(':5000', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
-    //  IO.socket = io.connect(https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+      //IO.socket = io.connect();
+      IO.socket = io.connect('https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+
       IO.bindEvents();
     },
 
@@ -25,9 +26,6 @@ jQuery(function($) {
      */
     bindEvents: function() {
       IO.socket.on('connected', IO.onConnected);
-      IO.socket.on('disconnect', function() {
-        IO.socket.socket.reconnect();
-      });
       IO.socket.on('newGameCreated', IO.onNewGameCreated);
       IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
       IO.socket.on('removePlayerName', IO.removePlayerName);
@@ -38,14 +36,13 @@ jQuery(function($) {
       IO.socket.on('playerGameStarted', IO.playerNewGame);
       IO.socket.on('newWordData', IO.onNewWordData);
       IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
-      IO.socket.on('finalTeamDeduct', IO.finalTeamDeduct);
+      IO.socket.on('hostTeamDeduct', IO.hostTeamDeduct);
       IO.socket.on('playerAddPoints', IO.playerAddPoints);
       IO.socket.on('playerWrong', IO.playerWrong);
 
       //IO.socket.on('gameOver', IO.addPointsBtn);
       IO.socket.on('gameOver', IO.gameOver);
       IO.socket.on('error', IO.error);
-
     },
 
     /**
@@ -55,32 +52,12 @@ jQuery(function($) {
     onConnected: function(data) {
       // Cache a copy of the client's socket.IO session ID on the App
       App.mySocketId = IO.socket.socket.sessionid;
-      /*
       //Experimenting HERE
-      var address = IO.socket.handshake.address;
-      console.log('New connection from ' + address.address + ':' + address.port);*/
-
       if (window.location.href.indexOf("GoLive") > -1) {
         App.Host.gameInit(data);
         IO.socket.emit('hostCreateNewGame');
       } else {
         App.$gameArea.html(App.$templateJoinGame);
-      }
-      //App.Host.gameInit(data);
-      //IO.socket.emit('hostCreateNewGame');
-
-
-      // console.log(data.message);*/
-    },
-    onReconnect: function(data) {
-      IO.socket.socket.reconnect();
-      // Cache a copy of the client's socket.IO session ID on the App
-      App.mySocketId = IO.socket.socket.sessionid;
-      //Experimenting HERE
-      if (window.location.href.indexOf("GoLive") > -1) {
-        App.Host.gameInit(data);
-        IO.socket.emit('hostCreateNewGame');
-      } else {
       }
       //App.Host.gameInit(data);
       //IO.socket.emit('hostCreateNewGame');
@@ -181,14 +158,10 @@ jQuery(function($) {
 
 
     },
-    finalTeamDeduct: function(data) {
-      App[App.myRole].teamDeduct(data);
-      /*if (App.myRole === 'Host') {
+    hostTeamDeduct: function(data) {
+      if (App.myRole === 'Host') {
         App.Host.teamDeduct(data);
       }
-      else{
-       App.Player.teamDeduct(data);
-     }*/
 
 
     },
@@ -1322,6 +1295,15 @@ jQuery(function($) {
         }
 
         IO.socket.emit('hostNextRound', data);
+
+        /*WORKING HERE
+        Will possibly have to make 6 different HTML Skeletons and update the Add Points feature to each individual skel
+        $('#w3-teamDeduct-row-3').append("<div class='w3-col s12 w3-center' id = 'addPointsDiv'><button class='deductTeamBtn ccbtn btn-success btn-simple btn-sq-lg' id='addPoints' type='button' disabled>Add Points</button></div>");
+        IO.socket.emit('addPointsBtn', data);
+        }
+        else{
+        }*/
+
       },
       addPoints: function() {
         // Advance the round
@@ -1578,7 +1560,6 @@ jQuery(function($) {
           teamDeduct: teamDeduct,
           team: App.Player.team,
         }
-        //Reshows the player body
         if (App.Player.team == 1) {
           App.$gameArea.html(App.$player1Game);
           $('#player-1-body').show();
@@ -1599,33 +1580,9 @@ jQuery(function($) {
           $('#player-6-body').show();
         }
 
+
+        //App.$gameArea.html(App.$player1Game);
         IO.socket.emit('teamDeduct', data);
-      },
-      teamDeduct: function(data) {
-        var prey;
-        var preyText;
-        var predText;
-        if (data.teamDeduct == 'deductTeam1') {
-          prey = 1;
-        }else if (data.teamDeduct == 'deductTeam2') {
-          prey = 2;
-        }else if (data.teamDeduct == 'deductTeam3') {
-          prey = 3;
-        }else if (data.teamDeduct == 'deductTeam4') {
-          prey = 4;
-        }else if (data.teamDeduct == 'deductTeam5') {
-          prey = 5;
-        }else if (data.teamDeduct == 'deductTeam6') {
-          prey = 6;
-        }
-
-
-
-        if (App.Player.team == prey) {
-          $('#negativePoints').html('<div class="">Ouch! Team '+data.team+' just took away 10 points from you!</div>');
-        }
-
-        IO.socket.emit('hostNextRound', data);
       },
 
       /**
@@ -1660,8 +1617,8 @@ jQuery(function($) {
       },
       removePlayerName: function(data) {
         if (data.playerName == App.Player.myName) {
-        //  IO.socket.emit('forceDisconnect');
           App.$gameArea.html(App.$templateJoinGame);
+          socket.disconnect();
         }
       },
 
