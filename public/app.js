@@ -140,8 +140,6 @@ jQuery(function($) {
       }
 
     },
-
-
     /**
      * Both players have joined the game.
      * @param data
@@ -558,10 +556,6 @@ jQuery(function($) {
           var currentPlayers = App.Host.numPlayersInRoom;
           $("#createGameContainer").append("<button id = 'teamsBtn' class = 'btn btn-primary' value = 'createGame'><p style='margin-top: -8px;'>Start game with " + currentPlayers + " players</p></button>");
         }
-
-
-
-
       },
       createTeams: function(data) {
         // If this is a restarted game, show the screen.
@@ -892,7 +886,7 @@ jQuery(function($) {
         // Begin the on-screen countdown timer
         var $secondsLeft = $('#hostWord');
         App.countDown($secondsLeft, 5, function() {
-          $('#hostWord').text('')
+          $('#hostWord').text('');
           App.doTextFit('#hostWord');
           roundCountDown(data);
           IO.socket.emit('hostCountdownFinished', data);
@@ -925,7 +919,7 @@ jQuery(function($) {
         for (var i = 0; i < App.teamTotal; i++) {
           var teamNum = i + 1;
           if (i < 3) {
-            $('#w3-row-1').append("<div id = 'player" + teamNum + "Score'class='w3-col s4 w3-center'><span class='playerName'>Team " + teamNum + "</span><br><span class='score'>100</span><br><div><progress class = 'teamHealthBar' id= 'Team" + teamNum + "health' value='100' max='100'></progress></div></div>")
+            $('#w3-row-1').append("<div id = 'player" + teamNum + "Score'class='w3-col s4 w3-center'><span class='playerName'>Team " + teamNum + "</span><br><span class='score'>100</span><br><div><progress class = 'teamHealthBar' id= 'Team" + teamNum + "health' value='100' max='100'></progress></div></div>");
             /*$('#playerScores').append("<div id='player"+teamNum+"Score' class='playerScore'><span class='score'>100</span><span class='playerName'>Team "+teamNum+"</span> </div>")
             $('#player'+teamNum+'Score')
               .find('.playerName')*/
@@ -934,7 +928,7 @@ jQuery(function($) {
             //$('#player'+teamNum+'Score').find('.score').attr('id', App.Host.players[i].mySocketId);
             $('#player' + teamNum + 'Score').find('.score').attr('id', 'team' + teamNum);
           } else {
-            $('#w3-row-2').append("<div id = 'player" + teamNum + "Score'class='w3-col s4 w3-center'><span class='playerName'>Team " + teamNum + "</span><br><span class='score'>100</span><br><div><progress class = 'teamHealthBar' id= 'Team" + teamNum + "health' value='100' max='100'></progress></div></div>")
+            $('#w3-row-2').append("<div id = 'player" + teamNum + "Score'class='w3-col s4 w3-center'><span class='playerName'>Team " + teamNum + "</span><br><span class='score'>100</span><br><div><progress class = 'teamHealthBar' id= 'Team" + teamNum + "health' value='100' max='100'></progress></div></div>");
             /*$('#playerScores').append("<div id='player"+teamNum+"Score' class='playerScore'><span class='score'>100</span><span class='playerName'>Team "+teamNum+"</span> </div>")
             $('#player'+teamNum+'Score')
               .find('.playerName')*/
@@ -993,7 +987,7 @@ jQuery(function($) {
           var team3Score = $pScore3.text();
           var team4Score = $pScore4.text();
           var team5Score = $pScore5.text();
-          var team6Score = $pScore6.text()
+          var team6Score = $pScore6.text();
           var pTeam = data.team;
           if (pTeam == 1) {
             // Advance player's score if it is correct
@@ -1260,35 +1254,35 @@ jQuery(function($) {
 
         if (data.teamDeduct == 'deductTeam1') {
           $pScore1.text(+$pScore1.text() - setDeduct);
-          var health = document.getElementById("Team1health")
+          var health = document.getElementById("Team1health");
           health.value -= setDeduct;
 
         } else if (data.teamDeduct == 'deductTeam2') {
           $pScore2.text(+$pScore2.text() - setDeduct);
-          var health = document.getElementById("Team2health")
+          var health = document.getElementById("Team2health");
           health.value -= setDeduct;
 
         } else if (data.teamDeduct == 'deductTeam3') {
           $pScore3.text(+$pScore3.text() - setDeduct);
-          var health = document.getElementById("Team3health")
+          var health = document.getElementById("Team3health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 3!");
           App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'deductTeam4') {
           $pScore4.text(+$pScore4.text() - setDeduct);
-          var health = document.getElementById("Team4health")
+          var health = document.getElementById("Team4health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 4!");
           App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'deductTeam5') {
           $pScore5.text(+$pScore5.text() - setDeduct);
-          var health = document.getElementById("Team5health")
+          var health = document.getElementById("Team5health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 5!");
           App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'deductTeam6') {
           $pScore6.text(+$pScore6.text() - setDeduct);
-          var health = document.getElementById("Team6health")
+          var health = document.getElementById("Team6health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 6!");
           App.doTextFit('#hostWord');*/
@@ -1296,27 +1290,27 @@ jQuery(function($) {
 
           if (data.team == 1) {
             $pScore1.text(+$pScore1.text() + setDeduct);
-            var health = document.getElementById("Team1health")
+            var health = document.getElementById("Team1health");
             health.value += setDeduct;
           } else if (data.team == 2) {
             $pScore2.text(+$pScore2.text() + setDeduct);
-            var health = document.getElementById("Team2health")
+            var health = document.getElementById("Team2health");
             health.value += setDeduct;
           } else if (data.team == 3) {
             $pScore3.text(+$pScore3.text() + setDeduct);
-            var health = document.getElementById("Team3health")
+            var health = document.getElementById("Team3health");
             health.value += setDeduct;
           } else if (data.team == 4) {
             $pScore4.text(+$pScore4.text() + setDeduct);
-            var health = document.getElementById("Team4health")
+            var health = document.getElementById("Team4health");
             health.value += setDeduct;
           } else if (data.team == 5) {
             $pScore5.text(+$pScore5.text() + setDeduct);
-            var health = document.getElementById("Team5health")
+            var health = document.getElementById("Team5health");
             health.value += setDeduct;
           } else if (data.team == 6) {
             $pScore6.text(+$pScore6.text() + setDeduct);
-            var health = document.getElementById("Team6health")
+            var health = document.getElementById("Team6health");
             health.value += setDeduct;
           }
         }
@@ -1517,7 +1511,7 @@ jQuery(function($) {
         // collect data to send to the server
         var data = {
           gameId: +($('#inputGameId').val()),
-          playerName: $('#inputPlayerName').val() || 'anon'
+          playerName: $('#inputPlayerName').val() || 'anon',
         };
 
         // Send the gameId and playerName to the server
@@ -1602,9 +1596,7 @@ jQuery(function($) {
         IO.socket.emit('teamDeduct', data);
       },
       teamDeduct: function(data) {
-        var prey;
-        var preyText;
-        var predText;
+        var prey = 0;
         if (data.teamDeduct == 'deductTeam1') {
           prey = 1;
         }else if (data.teamDeduct == 'deductTeam2') {
@@ -1619,10 +1611,8 @@ jQuery(function($) {
           prey = 6;
         }
 
-
-
         if (App.Player.team == prey) {
-          $('#negativePoints').html('<div class="">Ouch! Team '+data.team+' just took away 10 points from you!</div>');
+          $('#negativePoints').html('<div>Ouch! Team '+data.team+' just took away 10 points from you!</div>');
         }
 
         IO.socket.emit('hostNextRound', data);
