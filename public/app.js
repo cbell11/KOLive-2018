@@ -37,7 +37,6 @@ jQuery(function($) {
       IO.socket.on('newWordData', IO.onNewWordData);
       IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
       IO.socket.on('finalTeamDeduct', IO.finalTeamDeduct);
-      IO.socket.on('hostTeamDeduct', IO.hostTeamDeduct);
       IO.socket.on('playerAddPoints', IO.playerAddPoints);
       IO.socket.on('playerWrong', IO.playerWrong);
 
@@ -1216,7 +1215,7 @@ jQuery(function($) {
 
 
       },
-      teamDeduct: function(data) {
+      /*teamDeduct: function(data) {
 
 
         var $pScore1 = $('#team1');
@@ -1241,26 +1240,21 @@ jQuery(function($) {
           $pScore3.text(+$pScore3.text() - setDeduct);
           var health = document.getElementById("Team3health");
           health.value -= setDeduct;
-          /*$('#hostWord').text("Ouch Team 3!");
-          App.doTextFit('#hostWord');*/
+          
         } else if (data.teamDeduct == 'deductTeam4') {
           $pScore4.text(+$pScore4.text() - setDeduct);
           var health = document.getElementById("Team4health");
           health.value -= setDeduct;
-          /*$('#hostWord').text("Ouch Team 4!");
-          App.doTextFit('#hostWord');*/
+         
         } else if (data.teamDeduct == 'deductTeam5') {
           $pScore5.text(+$pScore5.text() - setDeduct);
           var health = document.getElementById("Team5health");
           health.value -= setDeduct;
-          /*$('#hostWord').text("Ouch Team 5!");
-          App.doTextFit('#hostWord');*/
+          
         } else if (data.teamDeduct == 'deductTeam6') {
           $pScore6.text(+$pScore6.text() - setDeduct);
           var health = document.getElementById("Team6health");
           health.value -= setDeduct;
-          /*$('#hostWord').text("Ouch Team 6!");
-          App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'addPoints') {
           if (data.team == 1) {
             $pScore1.text(+$pScore1.text() + setDeduct);
@@ -1290,7 +1284,7 @@ jQuery(function($) {
         }
 
         IO.socket.emit('hostNextRound', data);
-      },
+      },*/
       addPoints: function() {
         // Advance the round
         App.currentRound += 1;
@@ -1570,7 +1564,7 @@ jQuery(function($) {
         //App.$gameArea.html(App.$player1Game);
         IO.socket.emit('teamDeduct', data);
       },
-      /*teamDeduct: function(data) {
+      teamDeduct: function(data) {
         var prey = 0;
         if (data.teamDeduct == 'deductTeam1') {
           prey = 1;
@@ -1591,7 +1585,7 @@ jQuery(function($) {
         }
 
         IO.socket.emit('hostNextRound', data);
-      },*/
+      },
 
       /**
        *  Click handler for the "Start Again" button that appears
