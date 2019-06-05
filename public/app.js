@@ -1570,7 +1570,7 @@ jQuery(function($) {
         //App.$gameArea.html(App.$player1Game);
         IO.socket.emit('teamDeduct', data);
       },
-      teamDeduct: function(data) {
+      /*teamDeduct: function(data) {
         var prey = 0;
         if (data.teamDeduct == 'deductTeam1') {
           prey = 1;
@@ -1591,7 +1591,7 @@ jQuery(function($) {
         }
 
         IO.socket.emit('hostNextRound', data);
-      },
+      },*/
 
       /**
        *  Click handler for the "Start Again" button that appears
