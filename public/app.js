@@ -158,7 +158,8 @@ jQuery(function($) {
       }
     },
     finalTeamDeduct: function(data) {
-      App[App.myRole].teamDeduct(data);
+      App[App.myRole].
+      (data);
     },
     playerAddPoints: function(data) {
       App[App.myRole].addPoints(data);
@@ -1228,77 +1229,67 @@ jQuery(function($) {
 
         if (data.teamDeduct == 'deductTeam1') {
           $pScore1.text(+$pScore1.text() - setDeduct);
-          var health = document.getElementById("Team1health")
+          var health = document.getElementById("Team1health");
           health.value -= setDeduct;
 
         } else if (data.teamDeduct == 'deductTeam2') {
           $pScore2.text(+$pScore2.text() - setDeduct);
-          var health = document.getElementById("Team2health")
+          var health = document.getElementById("Team2health");
           health.value -= setDeduct;
 
         } else if (data.teamDeduct == 'deductTeam3') {
           $pScore3.text(+$pScore3.text() - setDeduct);
-          var health = document.getElementById("Team3health")
+          var health = document.getElementById("Team3health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 3!");
           App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'deductTeam4') {
           $pScore4.text(+$pScore4.text() - setDeduct);
-          var health = document.getElementById("Team4health")
+          var health = document.getElementById("Team4health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 4!");
           App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'deductTeam5') {
           $pScore5.text(+$pScore5.text() - setDeduct);
-          var health = document.getElementById("Team5health")
+          var health = document.getElementById("Team5health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 5!");
           App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'deductTeam6') {
           $pScore6.text(+$pScore6.text() - setDeduct);
-          var health = document.getElementById("Team6health")
+          var health = document.getElementById("Team6health");
           health.value -= setDeduct;
           /*$('#hostWord').text("Ouch Team 6!");
           App.doTextFit('#hostWord');*/
         } else if (data.teamDeduct == 'addPoints') {
-
           if (data.team == 1) {
             $pScore1.text(+$pScore1.text() + setDeduct);
-            var health = document.getElementById("Team1health")
+            var health = document.getElementById("Team1health");
             health.value += setDeduct;
           } else if (data.team == 2) {
             $pScore2.text(+$pScore2.text() + setDeduct);
-            var health = document.getElementById("Team2health")
+            var health = document.getElementById("Team2health");
             health.value += setDeduct;
           } else if (data.team == 3) {
             $pScore3.text(+$pScore3.text() + setDeduct);
-            var health = document.getElementById("Team3health")
+            var health = document.getElementById("Team3health");
             health.value += setDeduct;
           } else if (data.team == 4) {
             $pScore4.text(+$pScore4.text() + setDeduct);
-            var health = document.getElementById("Team4health")
+            var health = document.getElementById("Team4health");
             health.value += setDeduct;
           } else if (data.team == 5) {
             $pScore5.text(+$pScore5.text() + setDeduct);
-            var health = document.getElementById("Team5health")
+            var health = document.getElementById("Team5health");
             health.value += setDeduct;
           } else if (data.team == 6) {
             $pScore6.text(+$pScore6.text() + setDeduct);
-            var health = document.getElementById("Team6health")
+            var health = document.getElementById("Team6health");
             health.value += setDeduct;
           }
         }
 
         IO.socket.emit('hostNextRound', data);
-
-        /*WORKING HERE
-        Will possibly have to make 6 different HTML Skeletons and update the Add Points feature to each individual skel
-        $('#w3-teamDeduct-row-3').append("<div class='w3-col s12 w3-center' id = 'addPointsDiv'><button class='deductTeamBtn ccbtn btn-success btn-simple btn-sq-lg' id='addPoints' type='button' disabled>Add Points</button></div>");
-        IO.socket.emit('addPointsBtn', data);
-        }
-        else{
-        }*/
-
       },
       addPoints: function() {
         // Advance the round
@@ -1578,6 +1569,28 @@ jQuery(function($) {
 
         //App.$gameArea.html(App.$player1Game);
         IO.socket.emit('teamDeduct', data);
+      },
+      teamDeduct: function(data) {
+        var prey = 0;
+        if (data.teamDeduct == 'deductTeam1') {
+          prey = 1;
+        }else if (data.teamDeduct == 'deductTeam2') {
+          prey = 2;
+        }else if (data.teamDeduct == 'deductTeam3') {
+          prey = 3;
+        }else if (data.teamDeduct == 'deductTeam4') {
+          prey = 4;
+        }else if (data.teamDeduct == 'deductTeam5') {
+          prey = 5;
+        }else if (data.teamDeduct == 'deductTeam6') {
+          prey = 6;
+        }
+
+        if (App.Player.team == prey) {
+          $('#negativePoints').html('<div>Ouch! Team '+data.team+' just took away 10 points from you!</div>');
+        }
+
+        IO.socket.emit('hostNextRound', data);
       },
 
       /**
