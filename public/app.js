@@ -14,10 +14,10 @@ jQuery(function($) {
      * to the Socket.IO server
      */
     init: function() {
-      //IO.socket = io.connect();
-      //IO.socket = io.connect(':5000', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
-      IO.socket = io.connect(https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+      IO.socket = io.connect();
       IO.bindEvents();
+      //IO.socket = io.connect(':5000', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+      //IO.socket = io.connect(https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
     },
 
     /**
@@ -73,7 +73,7 @@ jQuery(function($) {
 
       // console.log(data.message);*/
     },
-    onReconnect: function(data) {
+    /*onReconnect: function(data) {
       IO.socket.socket.reconnect();
       // Cache a copy of the client's socket.IO session ID on the App
       App.mySocketId = IO.socket.socket.sessionid;
