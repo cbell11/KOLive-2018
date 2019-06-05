@@ -36,7 +36,7 @@ jQuery(function($) {
       IO.socket.on('playerGameStarted', IO.playerNewGame);
       IO.socket.on('newWordData', IO.onNewWordData);
       IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
-      IO.socket.on('hostTeamDeduct', IO.hostTeamDeduct);
+      IO.socket.on('finalTeamDeduct', IO.finalTeamDeduct);
       IO.socket.on('playerAddPoints', IO.playerAddPoints);
       IO.socket.on('playerWrong', IO.playerWrong);
 
@@ -158,13 +158,10 @@ jQuery(function($) {
 
 
     },
-    hostTeamDeduct: function(data) {
-      if (App.myRole === 'Host') {
-        App.Host.teamDeduct(data);
-      }
-
-
+    finalTeamDeduct: function(data) {
+      App[App.myRole].teamDeduct(data);
     },
+   
     playerAddPoints: function(data) {
       App[App.myRole].addPoints(data);
     },
