@@ -14,8 +14,8 @@ jQuery(function($) {
      * to the Socket.IO server
      */
     init: function() {
-      IO.socket = io.connect(':5000', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
-    //  IO.socket = io.connect(https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+      //IO.socket = io.connect(':5000', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+      IO.socket = io.connect(https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
       IO.bindEvents();
     },
 
@@ -1568,7 +1568,7 @@ jQuery(function($) {
         IO.socket.emit('teamDeduct', data);
       },
       teamDeduct: function(data) {
-        var prey = 0;
+       /* var prey = 0;
         if (data.teamDeduct == 'deductTeam1') {
           prey = 1;
         }else if (data.teamDeduct == 'deductTeam2') {
@@ -1585,7 +1585,7 @@ jQuery(function($) {
 
         if (App.Player.team == prey) {
           $('#negativePoints').html('<div>Ouch! Team '+data.team+' just took away 10 points from you!</div>');
-        }
+        }*/
 
         IO.socket.emit('hostNextRound', data);
       },
