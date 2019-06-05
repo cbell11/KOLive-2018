@@ -14,8 +14,8 @@ jQuery(function($) {
      * to the Socket.IO server
      */
     init: function() {
-      //IO.socket = io.connect();
-      IO.socket = io.connect('https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+      IO.socket = io.connect();
+      //IO.socket = io.connect('https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
 
       IO.bindEvents();
     },
