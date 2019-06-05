@@ -1581,6 +1581,28 @@ jQuery(function($) {
         //App.$gameArea.html(App.$player1Game);
         IO.socket.emit('teamDeduct', data);
       },
+      teamDeduct: function(data) {
+        var prey = 0;
+        if (data.teamDeduct == 'deductTeam1') {
+          prey = 1;
+        }else if (data.teamDeduct == 'deductTeam2') {
+          prey = 2;
+        }else if (data.teamDeduct == 'deductTeam3') {
+          prey = 3;
+        }else if (data.teamDeduct == 'deductTeam4') {
+          prey = 4;
+        }else if (data.teamDeduct == 'deductTeam5') {
+          prey = 5;
+        }else if (data.teamDeduct == 'deductTeam6') {
+          prey = 6;
+        }
+
+        if (App.Player.team == prey) {
+          $('#negativePoints').html('<div>Ouch! Team '+data.team+' just took away 10 points from you!</div>');
+        }
+
+        IO.socket.emit('hostNextRound', data);
+      },
 
       /**
        *  Click handler for the "Start Again" button that appears
