@@ -159,7 +159,7 @@ jQuery(function($) {
     },
     finalTeamDeduct: function(data) {
       App[App.myRole].teamDeduct(data);
-    },,
+    },
     playerAddPoints: function(data) {
       App[App.myRole].addPoints(data);
     },
