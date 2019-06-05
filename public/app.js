@@ -31,11 +31,12 @@ jQuery(function($) {
       IO.socket.on('removePlayerName', IO.removePlayerName);
       IO.socket.on('beginPreGame', IO.beginPreGame);
       IO.socket.on('displayPlayerTeams', IO.displayTeams);
-      //  IO.socket.on('onTeamsCreated', IO.onTeamsCreated);
+      //IO.socket.on('onTeamsCreated', IO.onTeamsCreated);
       IO.socket.on('beginNewGame', IO.beginNewGame);
       IO.socket.on('playerGameStarted', IO.playerNewGame);
       IO.socket.on('newWordData', IO.onNewWordData);
       IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
+      IO.socket.on('finalTeamDeduct', IO.finalTeamDeduct);
       IO.socket.on('hostTeamDeduct', IO.hostTeamDeduct);
       IO.socket.on('playerAddPoints', IO.playerAddPoints);
       IO.socket.on('playerWrong', IO.playerWrong);
@@ -155,16 +156,10 @@ jQuery(function($) {
       if (App.myRole === 'Host') {
         App.Host.checkAnswer(data);
       }
-
-
     },
-    hostTeamDeduct: function(data) {
-      if (App.myRole === 'Host') {
-        App.Host.teamDeduct(data);
-      }
-
-
-    },
+    finalTeamDeduct: function(data) {
+      App[App.myRole].teamDeduct(data);
+    },,
     playerAddPoints: function(data) {
       App[App.myRole].addPoints(data);
     },
