@@ -227,7 +227,7 @@ function teamDeduct(data) {
 
     // The player's answer is attached to the data object.  \
     // Emit an event with the answer so it can be checked by the 'Host'
-    io.sockets.in(data.gameId).emit('hostTeamDeduct', data);
+    io.sockets.in(data.gameId).emit('finalTeamDeduct', data);
 }
 function playerCorrect(data) {
 
