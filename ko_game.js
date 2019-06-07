@@ -534,4 +534,7 @@ function populateQuestionPool(ko_id){
 
 
      });
+     con.end();
+     console.log("Removed database connection...");
+
 }
