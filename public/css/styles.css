@@ -12,7 +12,7 @@ Blue:  #002cff
 */
 
 html, body {
-    background-color: #F5F5F5;
+    background-color: #FFF;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -32,12 +32,12 @@ html, body {
     width: 49%;
     margin-bottom: 0;
     color: #ECFFE0;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     font-weight: 700;
     font-size: 2em;
     line-height: 1.2;
     text-align: center;
-    background-color: #ffd300;
+    background-color: #03256C;
     /*white-space: nowrap;*/
     vertical-align: middle;
     cursor: pointer;
@@ -50,22 +50,20 @@ html, body {
 }
 
 .btn:focus {
-    outline: thin dotted black;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
+    outline: none;
+
 }
 
 .btn:hover,
 .btn:focus {
     text-decoration: none;
-    background-color: #00acff;
+    background-color: #2EC4B6;
+    color: white;
     border: none;
 }
 .btn:active,
 .btn.active {
-    outline: 0;
-    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    outline: none;
 }
 
 .left {
@@ -87,7 +85,7 @@ html, body {
 }
 
 .titleWrapper {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     font-weight: 30;
     height: 50%;
     width: 96%;
@@ -98,7 +96,7 @@ html, body {
     margin: -20px auto;
     text-align: center;
     width: 100%;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     color: #d3a800;
     font-weight: 900;
     font-size: 8vw;
@@ -115,7 +113,7 @@ html, body {
    ****************************** */
 
 .createGameWrapper, .joinGameWrapper, .gameOver {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     margin: 0 auto;
     text-align: center;
 }
@@ -124,12 +122,28 @@ html, body {
     color: black;
     font-weight: 400;
     font-size: 2em;
-    margin-top: 1vw;
+}
+#gameCode{
+  padding-top: 100px;
+}
+.HOST_koLiveBG{
+  background-image: url('https://www.knockout.fun/img/kolive/HOST_KOLive_BG.png');
+  /*background-position: center center;*/
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.CLIENT_koLiveBG{
+  background-image: url('https://www.knockout.fun/img/kolive/CLIENT_KOLive_BG.png');
+  /*background-position: center center;*/
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .createGameWrapper{
     color: black;
     font-weight: 300;
+    margin-top: 0px;
+
 }
 
 .info label {
@@ -141,7 +155,7 @@ html, body {
     padding: 10px;
     width: 250px;
     height: 60px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     color: black;
     font-weight: 300;
     font-size: 2em;
@@ -167,7 +181,12 @@ button:focus {
 @media only screen
 and (max-device-width: 750px) {
     .info{
-      margin-top: 2em;
+      margin-top: 6em;
+    }
+    .joinGameWrapper{
+      position: absolute;
+      top: 0;
+      width: 100%;
     }
 }
 /*TABLET SCREEN SETTINGS*/
@@ -175,7 +194,7 @@ and (max-device-width: 750px) {
   and (min-device-width: 750px)
   and (max-device-width: 1024px)  {
     .info{
-      margin-top: 3.5em;
+      margin-top: 8em;
       font-size: 8vw;
     }
     .info label{
@@ -187,6 +206,11 @@ and (max-device-width: 750px) {
       font-size: 7vw;
       padding-bottom: 30px;
       height: 80px;
+    }
+    .joinGameWrapper{
+      position: absolute;
+      top: 0;
+      width: 100%;
     }
     .gameOver{
       display: block;
@@ -215,10 +239,10 @@ and (max-device-width: 750px) {
 }
 
 .joinGameWrapper .info {
-    font-size: 1.5em;
+    font-size: 1em;
     color: black;
-    height: 30%;
-    padding-top: 1%;
+    height: 20%;
+    padding-top: 8%;
 }
 
 .joinGameWrapper .btn {
@@ -230,7 +254,7 @@ and (max-device-width: 750px) {
     font-size: .8em;
 }
 #playersWaiting1, #playersWaiting2, #playersWaiting3,#playersWaiting4, #playersWaiting5, #playersWaiting6{
-  font-family: sans-serif;
+  font-family: 'Catamaran', sans-serif;
   font-size: 2vw;
   color: black;
   float: left;
@@ -307,11 +331,14 @@ and (max-device-width: 750px) {
   margin-right: auto;
   left: 0;
   right: 0;
+  background-color: #283267;
+  outline: none;
 }
 #btnStart{
   margin-top: -20px;
-  width: 40%;
+  width: 200px;
   height: 60px;
+  color: white;
   /*Responsive Fontfont-size: 2vw;*/
   font-weight: normal;
   position: absolute;
@@ -390,7 +417,7 @@ and (max-device-width: 750px) {
 }
 
 .switch-field input:checked + label {
-  background-color: #0093ff;
+  background-color: #4356AD;
   color: white;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -433,6 +460,11 @@ and (max-device-width: 750px) {
   background-color: #778899;
   cursor: default;
 }
+.btn-primary{
+  background: #DB3A33;
+  background-color: #DB3A33;
+
+}
 #shuffleBtn{
   background-color: transparent;
   color: #004cb3;
@@ -457,7 +489,7 @@ and (max-device-width: 750px) {
   outline: none;
 }
 #teamsTable{
-  font-family: sans-serif;
+  font-family: 'Catamaran', sans-serif;
   font-size: 15px;
   color: black;
   list-style-type: none;
@@ -530,7 +562,7 @@ and (max-device-width: 750px) {
 
 .ccbtn {
   font-size:20px;
-  font-family: Arial;
+  font-family: 'Catamaran', sans-serif;
   color: #ffffff;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
@@ -580,7 +612,7 @@ and (max-device-width: 750px) {
 
 /* Absolute Centering: http://coding.smashingmagazine.com/2013/08/09/absolute-horizontal-vertical-centering-css/ */
 #wordArea {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     font-weight: 400;
     position: absolute;
     height: 50%;
@@ -600,7 +632,7 @@ and (max-device-width: 750px) {
 #hostWord h2, #btnPlayerRestart h3 {
     font-size: 161px;
     line-height: 1em;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     font-weight: 400;
     margin: 0;
     padding: 0;
@@ -618,7 +650,7 @@ and (max-device-width: 750px) {
     width: 50%;
     padding: 0;
     margin: 0;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     font-weight: 400;
     height: 100%;
 }
@@ -693,6 +725,9 @@ and (max-device-width: 750px) {
 #teamSelect{
 height: 90%;
 margin-top: 10%;
+}
+#pre-game-wrapper{
+  padding-top: 120px;
 }
 #w3-teamDeduct-row-1{
   display: inline;
@@ -787,7 +822,7 @@ margin-top: 10%;
 #playerWordDiv{
   height: 90%;
   width:100%;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Catamaran', sans-serif;
   text-align: center;
 }
 #playerWord{
