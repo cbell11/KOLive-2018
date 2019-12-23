@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <title>KO Live</title>
-<link rel="icon" href = 'https://www.knockout.fun/img/kolive/LIVE_favicon.ico' type="image/ico">
-<link href="https://fonts.googleapis.com/css?family=Catamaran:500&display=swap" rel="stylesheet">
-
+<link rel="icon" href="public/favicon/favicon.ico" type="image/ico">
 
 
 
@@ -49,10 +47,15 @@
   <!-- This screen appears when a user clicks "CREATE" on the Title Screen -->
   <script id="create-game-template" type="text/template">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <main class="HOST_koLiveBG">
+    <main style = 'background-color: ;'>
+    <div class="title">
+    Knockout
+    </div>
     <div class="createGameWrapper">
-      <div class="info" id = 'gameCode'>1. Open this site on your mobile device:</div>
+
+      <div class="info">1. Open this site on your mobile device:</div>
       <div id="gameURL" class="infoBig">Error!</div>
+
       <div class="info">2. Then enter the following Game ID:</div>
       <div id="spanNewGameCode" class="gameId">Error!</div>
       <div id = 'createGameContainer'>
@@ -90,7 +93,10 @@
   </script>
   <!-- This scrreen appears when a player clicks "JOIN" on the Title Screen -->
   <script id="join-game-template" type="text/template">
-    <div class="joinGameWrapper HOST_koLiveBG" style="background-position: center;">
+    <div class="joinGameWrapper">
+      <div class="title">
+        KNOCKOUT
+      </div>
       <div class="info">
         <label for="inputPlayerName">Your Name:</label>
         <input id="inputPlayerName" type="text" />
@@ -112,12 +118,12 @@
   <!-- Groupings Template -->
   <!-- HOST GROUPINGS DISPLAY-->
   <script id= "host-pre-game-template" type="text/template">
-    <!--<div class="title">
+    <div class="title">
       KNOCKOUT
-    </div>-->
-    <div class="teamGameWrapper HOST_koLiveBG" >
+    </div>
+    <div class="teamGameWrapper">
       <!--INSERT SHUFFLE TEAMS BUTTON-->
-      <div id = 'pre-game-wrapper'class="w3-row">
+      <div class="w3-row">
         <div class='w3-col s4 w3-center'>
         <button id = 'btnBeginGame' class = 'btn btn-primary' value = 'startBeginGame'>Start</button>
       </div>
@@ -176,13 +182,15 @@
   </script>
   <!-- PLAYER GROUPINGS DISPLAY-->
   <script id= "player-pre-game-template" type="text/template">
-
-    <div class="HOST_koLiveBG">
+    <div class="title">
+      KNOCKOUT
+    </div><br>
+    <div>
       <div class = 'container' style = 'text-align: center; width: 100%;'>
       <div id = 'teamsTable' class = 'row'>
         <div class="col-sm-12">
           <!--<h3 id = 'playerTeamName'><u>Look on the screen AND find your team!</u></h3>-->
-          <div id = 'teamMembers' style="margin-top: 100px;"></div>
+          <div id = 'teamMembers'></div>
         </div>
       </div>
     </div>
