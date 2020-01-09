@@ -14,8 +14,8 @@ jQuery(function($) {
      * to the Socket.IO server
      */
     init: function() {
-      //IO.socket = io.connect();
-      IO.socket = io.connect('https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
+      IO.socket = io.connect();
+      //IO.socket = io.connect('https://kolive.herokuapp.com', {'force new connection': false , 'reconnection': true,'reconnectionDelay': 500,'reconnectionAttempts': 10});
 
       IO.bindEvents();
     },
@@ -40,9 +40,7 @@ jQuery(function($) {
       IO.socket.on('playerAddPoints', IO.playerAddPoints);
       IO.socket.on('playerWrong', IO.playerWrong);
 
-      //IO.socket.on('gameOver', IO.addPoints
-      
-      );
+      //IO.socket.on('gameOver', IO.addPointsBtn);
       IO.socket.on('gameOver', IO.gameOver);
       IO.socket.on('error', IO.error);
     },
@@ -163,7 +161,7 @@ jQuery(function($) {
     finalTeamDeduct: function(data) {
       App[App.myRole].teamDeduct(data);
     },
-   
+
     playerAddPoints: function(data) {
       App[App.myRole].addPoints(data);
     },
@@ -255,6 +253,8 @@ jQuery(function($) {
       App.$gameArea = $('#gameArea');
       App.$templateIntroScreen = $('#intro-screen-template').html();
       App.$templateNewGame = $('#create-game-template').html();
+      //App.$templateNewGame = $('#player1-game-template').html();
+
       App.$templateHostPreGame = $('#host-pre-game-template').html();
       App.$templatePlayerPreGame = $('#player-pre-game-template').html();
       App.$templateStartGame = $('#start-game-template').html();
@@ -1668,6 +1668,7 @@ jQuery(function($) {
           var team = data.team1;
           App.Player.team = 1;
           $('#teamMembers').append("<li><h2>Teammates</h2><br></li><br>");
+          $('#teamContainer').addClass('team1bg')
           for (var i = 0; i < team.length; i++) {
             $('#teamMembers').append(team[i] + "</li><br><br><li>");
           }
