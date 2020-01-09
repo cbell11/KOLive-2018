@@ -40,7 +40,9 @@ jQuery(function($) {
       IO.socket.on('playerAddPoints', IO.playerAddPoints);
       IO.socket.on('playerWrong', IO.playerWrong);
 
-      //IO.socket.on('gameOver', IO.addPointsBtn);
+      //IO.socket.on('gameOver', IO.addPoints
+      
+      );
       IO.socket.on('gameOver', IO.gameOver);
       IO.socket.on('error', IO.error);
     },
@@ -1409,7 +1411,7 @@ jQuery(function($) {
               // Create a button to start a new game.
               $('<button>Start A New Game</button>')
               .attr('id', 'btnHostRestart')
-              .addClass('btn')
+              .addClass('btn2')
               .addClass('btnGameOver')
             );
         } else {
