@@ -1411,7 +1411,7 @@ jQuery(function($) {
               // Create a button to start a new game.
               $('<button>Start A New Game</button>')
               .attr('id', 'btnHostRestart')
-              .addClass('btn2')
+              .addClass('btn')
               .addClass('btnGameOver')
             );
         } else {
@@ -1801,7 +1801,7 @@ jQuery(function($) {
             .append($('<li/>').attr('style', 'margin-bottom: 15px;') //  <ul> <li> </li> </ul>
               .append($('<button/>') //  <ul> <li> <button> </button> </li> </ul>
                 .addClass('btnAnswer') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
-                .addClass('btn') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
+                .addClass('btn2') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
                 .val(this) //  <ul> <li> <button class='btnAnswer' value='word'> </button> </li> </ul>
                 .html(this) //  <ul> <li> <button class='btnAnswer' value='word'>word</button> </li> </ul>
               )
