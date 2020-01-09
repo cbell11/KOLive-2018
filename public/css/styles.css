@@ -65,6 +65,45 @@ html, body {
 .btn.active {
     outline: none;
 }
+.btn2 {
+    display: inline-block;
+    height: 100%;
+    width: 49%;
+    margin-bottom: 0;
+    color: #ECFFE0;
+    font-family: 'Catamaran', sans-serif;
+    font-weight: 700;
+    font-size: 2em;
+    line-height: 1.2;
+    text-align: center;
+    background-color: #AAB8C2;
+    /*white-space: nowrap;*/
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.btn2:focus {
+    outline: none;
+
+}
+
+.btn2:hover,
+.btn2:focus {
+    text-decoration: none;
+    background-color: #2EC4B6;
+    color: white;
+    border: none;
+}
+.btn2:active,
+.btn2.active {
+    outline: none;
+}
 
 .left {
     float: left;
@@ -488,6 +527,8 @@ and (max-device-width: 750px) {
 #shuffleBtn:after{
   outline: none;
 }
+.team1bg{
+}
 #teamsTable{
   font-family: 'Catamaran', sans-serif;
   font-size: 15px;
@@ -666,13 +707,14 @@ and (max-device-width: 750px) {
 
 .playerScore .score {
     text-align: center;
-    background-color: #ffd700;
+    color: white;
+    background-color: #48A9A6;
 }
 
 .playerScore .playerName {
     width: 20%;
     color: white;
-    background-color: #333a40;
+    background-color: #283367;
 }
 /*MOBILE PHONE SCREEN SETTINGS*/
 @media only screen
@@ -688,13 +730,13 @@ and (max-device-width: 750px) {
 
     .playerScore .score {
         text-align: center;
-        background-color: #ffd700;
+        background-color: #48A9A6;
     }
 
     .playerScore .playerName {
         width: 20%;
         color: white;
-        background-color: #333a40;
+        background-color: #283367;
     }
 
   }
@@ -711,13 +753,13 @@ and (max-device-width: 750px) {
       }
       .playerScore .score {
           text-align: center;
-          background-color: #ffd700;
+          background-color: #48A9A6;
       }
 
       .playerScore .playerName {
           width: 20%;
           color: white;
-          background-color: #333a40;
+          background-color: #283367;
       }
 
     }
@@ -862,7 +904,7 @@ margin-top: 10%;
     margin-top: 10%;
   }
   #playerWord{
-    font-size: 21vw;
+    font-size: 1.3em;
   }
   #answer_bank{
     /*THIS ADJUSTS BUTTON FONT SIZE*/
