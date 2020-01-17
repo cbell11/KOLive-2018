@@ -862,7 +862,7 @@ margin-top: 10%;
     font-size: 1vw;
 }
 #playerWordDiv{
-  height: 90%;
+  height: 80%;
   width:100%;
   font-family: 'Catamaran', sans-serif;
   text-align: center;
@@ -901,10 +901,20 @@ margin-top: 10%;
     bottom: 0;
   }
   #playerWordDiv{
-    margin-top: 10%;
+    margin-top: 30%;
   }
   #playerWord{
-    font-size: 1.3em;
+    font-size: 1.6em;
+  }
+  .outer2{
+      height: auto;
+      width: 100%;
+      margin-top: 60px !important;
+      margin-left: -50% !important;
+  }
+  #negativePoints{
+    font-size: 14px;
+
   }
   #answer_bank{
     /*THIS ADJUSTS BUTTON FONT SIZE*/
@@ -947,10 +957,11 @@ margin-top: 10%;
       bottom: 0;
     }
     #playerWordDiv{
-      margin-top: 5%;
+      margin-top: 10%;
     }
     #playerWord{
       font-size: 18vw;
+      overflow-wrap: break-word;
     }
     #answer_bank{
       /*THIS ADJUSTS BUTTON FONT SIZE*/
