@@ -9,7 +9,7 @@
     "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
     "socket.io": "0.9",
-    "sockjs": "^0.3.19",
+    "sockjs": "^0.3.20",
     "url": "^0.11.0"
   },
   "main": "index.js",
