@@ -269,8 +269,6 @@ function playerRestart(data) {
  * @param gameId The room identifier
  */
 function sendWord(wordPoolIndex, gameId, teamTotal) {
-    console.log('Test 1 tt:' + teamTotal);
-
     var data = getWordData(wordPoolIndex,teamTotal);
     if (teamTotal >= 3) {
       console.log('t1 q: ' + data.team[0].question);
@@ -374,7 +372,7 @@ if (y == 0) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 1 set updated');
+  console.log('Team 1 set: Q:'+question);
 }
 else if (y == 1) {
   t2 = {
@@ -384,7 +382,7 @@ else if (y == 1) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 2 set updated');
+  console.log('team 2 set updated: Q:'+question);
 }
 else if (y == 2) {
   t3 = {
@@ -394,7 +392,7 @@ else if (y == 2) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 3 set updated');
+  console.log('team 3 set updated: Q:'+question);
 }
 else if (y == 3) {
   t4 = {
@@ -497,7 +495,16 @@ function shuffle(sourceArray) {
 function populateQuestionPool(ko_id){
   var mysql = require('mysql');
   var express = require('express');
-  /*Local Host Setup
+    /*
+DB4free
+    var con = mysql.createConnection({
+     host: "db4free.net",
+     port: "3306",
+     user: "chandlerbell",
+     password: "test123",
+     database: "kotest",
+   })
+Local Host Setup
   var con = mysql.createConnection({
      host: "localhost",
      port: "3306",
@@ -505,7 +512,7 @@ function populateQuestionPool(ko_id){
      password: "",
      database: "loginsystem",
    });*/
-     /*Online Setup*/
+     /*Online Setup
      var con = mysql.createConnection({
       host: "127.0.0.1",
       port: "3306",
@@ -536,5 +543,38 @@ function populateQuestionPool(ko_id){
      });
      con.end();
      console.log("Removed database connection...");
+     */
+     wordPool = [];
+     wordPool.push( {
+         'question': ['1+1'],
+         'cor_ans': ['2'],
+         'decoys': [],
+     })
+     wordPool.push( {
+         'question': ['2+1'],
+         'cor_ans': ['3'],
+         'decoys': [],
+     })
+     wordPool.push( {
+         'question': ['2+2'],
+         'cor_ans': ['4'],
+         'decoys': [],
+     })
+     wordPool.push( {
+         'question': ['2+3'],
+         'cor_ans': ['5'],
+         'decoys': [],
+     })
+     wordPool.push( {
+         'question': ['3+3'],
+         'cor_ans': ['6'],
+         'decoys': [],
+     })
+     wordPool.push( {
+         'question': ['Capital of USA'],
+         'cor_ans': ['Washington DC'],
+         'decoys': [],
+     })
+     console.log(wordPool)
 
 }
