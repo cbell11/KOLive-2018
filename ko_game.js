@@ -542,7 +542,7 @@ Local Host Setup
 
      });
      con.end();
-     console.log("Removed database connection...");
+     //console.log("Removed database connection...");
      */
      wordPool = [];
      wordPool.push( {
