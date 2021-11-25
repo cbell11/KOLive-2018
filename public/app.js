@@ -139,11 +139,17 @@ jQuery(function($) {
     onNewWordData: function(data) {
 
       // Update the current round
-      //App.currentRound = data.round;
       App.teamTotal = data.teamTotal;
 
-      // Change the word for the Host and Player
-      App[App.myRole].newWord(data);
+      if(data.teamID == 0){
+        App[App.myRole].startWord(data);
+      }
+      else{
+        // Change the word for the Host and Player
+        App[App.myRole].newWord(data);
+
+      }
+
     },
 
     /**
@@ -922,6 +928,25 @@ jQuery(function($) {
        * Show the word for the current round on screen.
        * @param data{{round: *, word: *, answer: *, list: Array}}
        */
+       startWord: function(data) {
+         // Insert the new word into the DOM
+         //$('#hostWord').hide();
+         /*
+         // Update the data for the current round
+         App.Host.currentCorrectAnswer = data.answer;
+         App.Host.currentRound = data.round;*/// DEBUG:
+         $('#gameCodeDisplay').text(App.gameId);
+
+           App.Host.t1currentCorrectAnswer = data.team[0].answer;
+           App.Host.t2currentCorrectAnswer = data.team[1].answer;
+           App.Host.t3currentCorrectAnswer = data.team[2].answer;
+           App.Host.t4currentCorrectAnswer = data.team[3].answer;
+           App.Host.t5currentCorrectAnswer = data.team[4].answer;
+           App.Host.t6currentCorrectAnswer = data.team[5].answer;
+
+
+
+       },
       newWord: function(data) {
         // Insert the new word into the DOM
         //$('#hostWord').hide();
@@ -930,15 +955,24 @@ jQuery(function($) {
         App.Host.currentCorrectAnswer = data.answer;
         App.Host.currentRound = data.round;*/// DEBUG:
         $('#gameCodeDisplay').text(App.gameId);
-
-        App.Host.t1currentCorrectAnswer = data.team[0].answer;
-        App.Host.t2currentCorrectAnswer = data.team[1].answer;
-        App.Host.t3currentCorrectAnswer = data.team[2].answer;
-        App.Host.t4currentCorrectAnswer = data.team[3].answer;
-        App.Host.t5currentCorrectAnswer = data.team[4].answer;
-        App.Host.t6currentCorrectAnswer = data.team[5].answer;
-
-
+        if(data.teamID == 1){
+          App.Host.t1currentCorrectAnswer = data.team[0].answer;
+        }
+        else if(data.teamID == 2){
+          App.Host.t2currentCorrectAnswer = data.team[1].answer;
+        }
+        else if(data.teamID == 3){
+          App.Host.t3currentCorrectAnswer = data.team[2].answer;
+        }
+        else if(data.teamID == 4){
+          App.Host.t4currentCorrectAnswer = data.team[3].answer;
+        }
+        else if(data.teamID == 5){
+          App.Host.t5currentCorrectAnswer = data.team[4].answer;
+        }
+        else if(data.teamID == 6){
+          App.Host.t6currentCorrectAnswer = data.team[5].answer;
+        }
 
 
       },
@@ -976,6 +1010,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
+                team: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -994,6 +1029,7 @@ jQuery(function($) {
                 playerId: data.playerId,
                 answer: data.answer,
                 round: data.round,
+                team: pTeam,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
                 playerTeam: data.team,
@@ -1017,6 +1053,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
+                team: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1036,7 +1073,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                playerTeam: data.team,
+                team: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1058,6 +1095,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
+                team: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1077,7 +1115,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                playerTeam: data.team,
+                team: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1099,6 +1137,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
+                team: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1118,7 +1157,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                playerTeam: data.team,
+                team: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1140,6 +1179,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
+                team: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1159,7 +1199,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                playerTeam: data.team,
+                team: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1181,6 +1221,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
+                team: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1200,7 +1241,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                playerTeam: data.team,
+                team: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1220,6 +1261,7 @@ jQuery(function($) {
 
       },
       teamDeduct: function(data) {
+        //HOST Team Dudect
 
 
         var $pScore1 = $('#team1');
@@ -1229,6 +1271,7 @@ jQuery(function($) {
         var $pScore5 = $('#team5');
         var $pScore6 = $('#team6');
         var setDeduct = 10;
+
 
         if (data.teamDeduct == 'deductTeam1') {
           $pScore1.text(+$pScore1.text() - setDeduct);
@@ -1602,6 +1645,7 @@ jQuery(function($) {
         if (App.Player.team == prey) {
           $('#negativePoints').html('<div>Ouch! Team '+data.team+' just took away 10 points from you!</div>');
         }
+        console.log()
 
         IO.socket.emit('hostNextRound', data);
       },
@@ -1751,71 +1795,139 @@ jQuery(function($) {
        * Show the list of words for the current round.
        * @param data{{round: *, word: *, answer: *, list: Array}}
        */
+       startWord: function(data) {
+         var list;
+         var question;
+         //Gives Time for Questions and Answers to Populate Correctly
+         setTimeout(populate, 1000);
+         function populate(){
+
+         if (App.Player.team == 1) {
+           App.Player.currentCorrectAnswer = data.team[0].answer;
+           list = data.team[0].list;
+           question = data.team[0].question;
+         }
+         else if (App.Player.team == 2) {
+           App.Player.currentCorrectAnswer = data.team[1].answer;
+           list = data.team[1].list;
+           question = data.team[1].question;
+         }
+         else if (App.Player.team == 3) {
+           App.Player.currentCorrectAnswer = data.team[2].answer;
+           list = data.team[2].list;
+           question = data.team[2].question;
+         }
+         else if (App.Player.team == 4) {
+           App.Player.currentCorrectAnswer = data.team[3].answer;
+           list = data.team[3].list;
+           question = data.team[3].question;
+         }
+         else if (App.Player.team == 5) {
+           App.Player.currentCorrectAnswer = data.team[4].answer;
+           list = data.team[4].list;
+           question = data.team[4].question;
+         }
+         else if (App.Player.team == 6) {
+           App.Player.currentCorrectAnswer = data.team[5].answer;
+           list = data.team[5].list;
+           question = data.team[5].question;
+         }
+
+         // Create an unordered list element
+       //  App.Player.currentCorrectAnswer = data.t1.answer;
+
+         var $list = $('<ul/>').attr('id', 'ulAnswers').attr('id', 'answer_bank');
+
+
+
+         // Insert a list item for each word in the word list
+         // received from the server.
+         $.each(list, function() {
+           $list //  <ul> </ul>
+             .append($('<li/>').attr('style', 'margin-bottom: 15px;') //  <ul> <li> </li> </ul>
+               .append($('<button/>') //  <ul> <li> <button> </button> </li> </ul>
+                 .addClass('btnAnswer') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
+                 .addClass('btn2') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
+                 .val(this) //  <ul> <li> <button class='btnAnswer' value='word'> </button> </li> </ul>
+                 .html(this) //  <ul> <li> <button class='btnAnswer' value='word'>word</button> </li> </ul>
+               )
+             )
+         });
+
+         // Insert the list onto the screen.
+         $('.playerName').text(App.Player.myName)
+         //$('.playerName').text(data.team1.length)
+         $('#playerWord').text(question);
+         $('#answerDiv').html($list);
+         //$('#gameArea').html($list);
+       }
+       },
       newWord: function(data) {
         var list;
         var question;
         //Gives Time for Questions and Answers to Populate Correctly
         setTimeout(populate, 1000);
         function populate(){
-        if (App.Player.team == 1) {
-          App.Player.currentCorrectAnswer = data.team[0].answer;
-          list = data.team[0].list;
-          question = data.team[0].question;
-        }
-        else if (App.Player.team == 2) {
-          App.Player.currentCorrectAnswer = data.team[1].answer;
-          list = data.team[1].list;
-          question = data.team[1].question;
-        }
-        else if (App.Player.team == 3) {
-          App.Player.currentCorrectAnswer = data.team[2].answer;
-          list = data.team[2].list;
-          question = data.team[2].question;
-        }
-        else if (App.Player.team == 4) {
-          App.Player.currentCorrectAnswer = data.team[3].answer;
-          list = data.team[3].list;
-          question = data.team[3].question;
-        }
-        else if (App.Player.team == 5) {
-          App.Player.currentCorrectAnswer = data.team[3].answer;
-          list = data.team[4].list;
-          question = data.team[4].question;
-        }
-        else if (App.Player.team == 6) {
-          App.Player.currentCorrectAnswer = data.team[5].answer;
-          list = data.team[5].list;
-          question = data.team[5].question;
-        }
 
-        // Create an unordered list element
-      //  App.Player.currentCorrectAnswer = data.t1.answer;
+          if (App.Player.team == 1 && data.teamID == 1) {
+            App.Player.currentCorrectAnswer = data.team[0].answer;
+            list = data.team[0].list;
+            question = data.team[0].question;
+          }
+          else if (App.Player.team == 2 && data.teamID == 2) {
+            App.Player.currentCorrectAnswer = data.team[1].answer;
+            list = data.team[1].list;
+            question = data.team[1].question;
+          }
+          else if (App.Player.team == 3 && data.teamID == 3) {
+            App.Player.currentCorrectAnswer = data.team[2].answer;
+            list = data.team[2].list;
+            question = data.team[2].question;
+          }
+          else if (App.Player.team == 4 && data.teamID == 4) {
+            App.Player.currentCorrectAnswer = data.team[3].answer;
+            list = data.team[3].list;
+            question = data.team[3].question;
+          }
+          else if (App.Player.team == 5 && data.teamID == 5) {
+            App.Player.currentCorrectAnswer = data.team[4].answer;
+            list = data.team[4].list;
+            question = data.team[4].question;
+          }
+          else if (App.Player.team == 6 && data.teamID == 6) {
+            App.Player.currentCorrectAnswer = data.team[5].answer;
+            list = data.team[5].list;
+            question = data.team[5].question;
+          }
 
-        var $list = $('<ul/>').attr('id', 'ulAnswers').attr('id', 'answer_bank');
+          // Create an unordered list element
+        //  App.Player.currentCorrectAnswer = data.t1.answer;
+
+          var $list = $('<ul/>').attr('id', 'ulAnswers').attr('id', 'answer_bank');
 
 
 
-        // Insert a list item for each word in the word list
-        // received from the server.
-        $.each(list, function() {
-          $list //  <ul> </ul>
-            .append($('<li/>').attr('style', 'margin-bottom: 15px;') //  <ul> <li> </li> </ul>
-              .append($('<button/>') //  <ul> <li> <button> </button> </li> </ul>
-                .addClass('btnAnswer') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
-                .addClass('btn2') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
-                .val(this) //  <ul> <li> <button class='btnAnswer' value='word'> </button> </li> </ul>
-                .html(this) //  <ul> <li> <button class='btnAnswer' value='word'>word</button> </li> </ul>
+          // Insert a list item for each word in the word list
+          // received from the server.
+          $.each(list, function() {
+            $list //  <ul> </ul>
+              .append($('<li/>').attr('style', 'margin-bottom: 15px;') //  <ul> <li> </li> </ul>
+                .append($('<button/>') //  <ul> <li> <button> </button> </li> </ul>
+                  .addClass('btnAnswer') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
+                  .addClass('btn2') //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
+                  .val(this) //  <ul> <li> <button class='btnAnswer' value='word'> </button> </li> </ul>
+                  .html(this) //  <ul> <li> <button class='btnAnswer' value='word'>word</button> </li> </ul>
+                )
               )
-            )
-        });
+          });
 
-        // Insert the list onto the screen.
-        $('.playerName').text(App.Player.myName)
-        //$('.playerName').text(data.team1.length)
-        $('#playerWord').text(question);
-        $('#answerDiv').html($list);
-        //$('#gameArea').html($list);
-      }
+          // Insert the list onto the screen.
+          $('.playerName').text(App.Player.myName)
+          //$('.playerName').text(data.team1.length)
+          $('#playerWord').text(question);
+          $('#answerDiv').html($list);
+          //$('#gameArea').html($list);
+        }
       },
       addPoints: function(data) {
         var $pScore = $('.score');
@@ -1964,6 +2076,7 @@ jQuery(function($) {
           var data = {
             gameId: App.gameId,
             round: App.currentRound,
+
           }
 
           function arrayContains(needle, arrhaystack) {
