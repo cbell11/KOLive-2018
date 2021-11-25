@@ -134,7 +134,7 @@ function hostStartGame(data) {
 
     //io.sockets.in(data.gameId).emit('playerGameStarted',data);
 
-    sendWord(0,data.gameId,teamTotal);
+    sendWord(0,data.gameId,teamTotal,0);
 
     //sendWord(0,data.gameId);
 };
@@ -145,13 +145,12 @@ function hostStartGame(data) {
  */
 
 function hostNextRound(data) {
-
     if(data.round < wordPool.length ){
         // Send a new set of words back to the host and players.
-        sendWord(data.round, data.gameId);
+        sendWord(data.round, data.gameId, teamTotal, data.team);
     } else {
-        // If the current round exceeds the number of words, send the 'gameOver' event.
-        sendWord(0,data.gameId);
+
+        sendWord(0,data.gameId,teamTotal, data.team);
     }
 }
 function addPointsBtn(data) {
@@ -267,9 +266,15 @@ function playerRestart(data) {
  *
  * @param wordPoolIndex
  * @param gameId The room identifier
+
  */
-function sendWord(wordPoolIndex, gameId, teamTotal) {
-    var data = getWordData(wordPoolIndex,teamTotal);
+function sendWord(wordPoolIndex, gameId, teamTotal, teamID) {
+
+    var data = getWordData(wordPoolIndex,teamTotal, teamID);
+    console.log("Starting a new round for team "+teamID)
+
+    /*TEST TO SEE QUESTIONS IN CONSOLE LOG
+
     if (teamTotal >= 3) {
       console.log('t1 q: ' + data.team[0].question);
       console.log('t1 a: ' + data.team[0].answer);
@@ -291,7 +296,7 @@ function sendWord(wordPoolIndex, gameId, teamTotal) {
     if (teamTotal >= 6) {
       console.log('t6 q: ' + data.team[5].question);
       console.log('t6 a: ' + data.team[5].answer);
-    }
+    }*/
     io.sockets.in(data.gameId).emit('newWordData', data);
 }
 
@@ -301,15 +306,18 @@ function sendWord(wordPoolIndex, gameId, teamTotal) {
  *
  * @param i The index of the wordPool.
  * @returns {{round: *, word: *, answer: *, list: Array}}
+ * @param teamID
+
  */
-function getWordData(i, teamTotal){
+function getWordData(i, teamTotal, teamID){
     // Randomize the order of the available words.
     // The first element in the randomized array will be displayed on the host screen.
     // The second element will be hidden in a list of decoys as the correct answer
 
   var wordData = {
         teamTotal : teamTotal,
-        team : []
+        team : [],
+        teamID: teamID,
     };
     var t1 = {};
     var t2 = {};
@@ -372,7 +380,7 @@ if (y == 0) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('Team 1 set: Q:'+question);
+  //console.log('Team 1 set: Q:'+question);
 }
 else if (y == 1) {
   t2 = {
@@ -382,7 +390,7 @@ else if (y == 1) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 2 set updated: Q:'+question);
+  //console.log('team 2 set updated: Q:'+question);
 }
 else if (y == 2) {
   t3 = {
@@ -392,7 +400,7 @@ else if (y == 2) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 3 set updated: Q:'+question);
+  //console.log('team 3 set updated: Q:'+question);
 }
 else if (y == 3) {
   t4 = {
@@ -402,7 +410,7 @@ else if (y == 3) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 4 set updated');
+  //console.log('team 4 set updated');
 }
 else if (y == 4) {
   t5 = {
@@ -412,7 +420,7 @@ else if (y == 4) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 5 set updated');
+  //console.log('team 5 set updated');
 }
 else if (y == 5) {
   t6 = {
@@ -422,7 +430,7 @@ else if (y == 5) {
     answer : cor_answer[0], // Correct Answer
     list : decoys      // Word list for player (decoys and answer)
   };
-  console.log('team 6 set updated');
+  //console.log('team 6 set updated');
 }
 
 }
@@ -460,6 +468,7 @@ else if (y == 5) {
     };*/
     wordData = {
           teamTotal : teamTotal,
+          teamID: teamID,
           team : [t1, t2, t3, t4, t5, t6]
       };
   return wordData;
@@ -542,7 +551,7 @@ Local Host Setup
 
      });
      con.end();
-     //console.log("Removed database connection...");
+     console.log("Removed database connection...");
      */
      wordPool = [];
      wordPool.push( {
