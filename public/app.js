@@ -587,14 +587,20 @@ jQuery(function($) {
           //Team Switch Statement
           switch (n) {
             case (n = 4):
-              /*App.team1 = randomNames.slice(0, 2);
+              /*
+              TEST TEAMS WITH 4
+
+            */
+              App.team1 = randomNames.slice(0, 2);
               App.team2 = randomNames.slice(2, 4);
-              App.teamTotal = 2;*/
+              App.teamTotal = 2;
+
+              /*
               App.team1 = randomNames.slice(0, 1);
               App.team2 = randomNames.slice(1, 2);
               App.team3 = randomNames.slice(2, 3);
               App.team4 = randomNames.slice(3, 4);
-              App.teamTotal = 4;
+              App.teamTotal = 4;*/
               break;
             case (n = 5):
               /*App.team1 = randomNames.slice(0, 3);
@@ -984,8 +990,6 @@ jQuery(function($) {
       checkAnswer: function(data) {
         // Verify that the answer clicked is from the current round.
         // This prevents a 'late entry' from a player whos screen has not
-        // yet updated to the current round.
-        if (data.round === App.currentRound) {
 
           // Get the player's score
           var $pScore1 = $('#team1');
@@ -1010,7 +1014,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
-                team: pTeam,
+                teamID: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1029,7 +1033,7 @@ jQuery(function($) {
                 playerId: data.playerId,
                 answer: data.answer,
                 round: data.round,
-                team: pTeam,
+                teamID: pTeam,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
                 playerTeam: data.team,
@@ -1053,7 +1057,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
-                team: pTeam,
+                teamID: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1073,7 +1077,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                team: pTeam,
+                teamID: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1095,7 +1099,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
-                team: pTeam,
+                teamID: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1115,7 +1119,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                team: pTeam,
+                teamID: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1137,7 +1141,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
-                team: pTeam,
+                teamID: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1157,7 +1161,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                team: pTeam,
+                teamID: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1179,7 +1183,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
-                team: pTeam,
+                teamID: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1199,7 +1203,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                team: pTeam,
+                teamID: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1221,7 +1225,7 @@ jQuery(function($) {
                 answer: data.answer,
                 round: data.round,
                 teamTotal: data.teamTotal,
-                team: pTeam,
+                teamID: pTeam,
                 playerName: data.playerName,
                 team1Score: team1Score,
                 team2Score: team2Score,
@@ -1241,7 +1245,7 @@ jQuery(function($) {
                 round: data.round,
                 teamTotal: data.teamTotal,
                 playerName: data.playerName,
-                team: pTeam,
+                teamID: pTeam,
                 team1Score: team1Score,
                 team2Score: team2Score,
                 team3Score: team3Score,
@@ -1255,7 +1259,7 @@ jQuery(function($) {
             }
           }
 
-          }
+
 
 
 
@@ -1604,21 +1608,27 @@ jQuery(function($) {
         }
         if (App.Player.team == 1) {
           App.$gameArea.html(App.$player1Game);
+          $('#correctMessage').hide();
           $('#player-1-body').show();
         } else if (App.Player.team == 2) {
           App.$gameArea.html(App.$player2Game);
+          $('#correctMessage').hide();
           $('#player-2-body').show();
         } else if (App.Player.team == 3) {
           App.$gameArea.html(App.$player3Game);
+          $('#correctMessage').hide();
           $('#player-3-body').show();
         } else if (App.Player.team == 4) {
           App.$gameArea.html(App.$player4Game);
+          $('#correctMessage').hide();
           $('#player-4-body').show();
         } else if (App.Player.team == 5) {
           App.$gameArea.html(App.$player5Game);
+          $('#correctMessage').hide();
           $('#player-5-body').show();
         } else if (App.Player.team == 6) {
           App.$gameArea.html(App.$player6Game);
+          $('#correctMessage').hide();
           $('#player-6-body').show();
         }
 
@@ -2088,9 +2098,45 @@ jQuery(function($) {
           //IO.socket.emit('hostNextRound', data);
 
         }
+        else if (App.Player.team == data.teamID){
+
+            //Displays Right Answer Notification
+            if (App.Player.team == 1) {
+              $('#player-1-body').hide();
+              $('#correctMessage').show();
+              setTimeout(showScreen, 4000);
+            }
+            else if (App.Player.team == 2) {
+              $('#player-2-body').hide();
+              $('#correctMessage').show();
+              setTimeout(showScreen, 4000);
+            }
+            else if (App.Player.team == 3) {
+              $('#player-3-body').hide();
+              $('#correctMessage').show();
+              setTimeout(showScreen, 4000);
+            }
+            else if (App.Player.team == 4) {
+              $('#player-4-body').hide();
+              $('#correctMessage').show();
+              setTimeout(showScreen, 4000);
+            }
+            else if (App.Player.team == 5) {
+              $('#player-5-body').hide();
+              $('#correctMessage').show();
+              setTimeout(showScreen, 4000);
+            }
+            else if (App.Player.team == 6) {
+              $('#player-6-body').hide();
+              $('#correctMessage').show();
+              setTimeout(showScreen, 4000);
+
+            }
+
+        }
       },
       playerWrong: function(data) {
-        if (App.Player.team == data.playerTeam) {
+        if (App.Player.team == data.teamID) {
           //Displays Wrong Answer Notification
           if (App.Player.team == 1) {
             $('#player-1-body').hide();
@@ -2101,7 +2147,7 @@ jQuery(function($) {
               $('#player-1-body').show();
             }
           }
-          if (App.Player.team == 2) {
+          else if (App.Player.team == 2) {
             $('#player-2-body').hide();
             $('#incorrectMessage').show();
             setTimeout(showScreen, 4000);
@@ -2110,7 +2156,7 @@ jQuery(function($) {
               $('#player-2-body').show();
             }
           }
-          if (App.Player.team == 3) {
+          else if (App.Player.team == 3) {
             $('#player-3-body').hide();
             $('#incorrectMessage').show();
             setTimeout(showScreen, 4000);
@@ -2119,7 +2165,7 @@ jQuery(function($) {
               $('#player-3-body').show();
             }
           }
-          if (App.Player.team == 4) {
+          else if (App.Player.team == 4) {
             $('#player-4-body').hide();
             $('#incorrectMessage').show();
             setTimeout(showScreen, 4000);
@@ -2128,7 +2174,7 @@ jQuery(function($) {
               $('#player-4-body').show();
             }
           }
-          if (App.Player.team == 5) {
+          else if (App.Player.team == 5) {
             $('#player-5-body').hide();
             $('#incorrectMessage').show();
             setTimeout(showScreen, 4000);
@@ -2137,7 +2183,7 @@ jQuery(function($) {
               $('#player-5-body').show();
             }
           }
-          if (App.Player.team == 6) {
+          else if (App.Player.team == 6) {
             $('#player-6-body').hide();
             $('#incorrectMessage').show();
             setTimeout(showScreen, 4000);
@@ -2145,9 +2191,9 @@ jQuery(function($) {
               $('#incorrectMessage').hide();
               $('#player-6-body').show();
             }
-            //App.Player.teamReset.push(4);
           }
         }
+
 
       },
       addPointsBtn: function(data) {
