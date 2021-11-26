@@ -1050,6 +1050,17 @@ margin-top: 10%;
   -moz-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
   box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
 }
+#rightAnswer{
+  padding: 50px;
+  background-color: #3e9219;
+  text-align: center;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  -webkit-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
+  -moz-box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
+  box-shadow: 3px 39px 38px -13px rgba(0,0,0,0.56);
+}
 #negativePoints{
   padding: 0px 50px;
   background-color: #fff;
