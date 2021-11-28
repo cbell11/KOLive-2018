@@ -296,7 +296,7 @@ function sendWord(wordPoolIndex, gameId, teamTotal, teamID) {
     if (teamTotal >= 6) {
       console.log('t6 q: ' + data.team[5].question);
       console.log('t6 a: ' + data.team[5].answer);
-    }*/
+    }*
     io.sockets.in(data.gameId).emit('newWordData', data);
 }
 
@@ -502,47 +502,8 @@ function shuffle(sourceArray) {
 
 
 function populateQuestionPool(ko_id){
+  var mysql = require('mysql');
   var express = require('express');
-
-  var mysql = require('mysql2');
-var url = require("url");
-var SocksConnection = require('socksjs');
-var remote_options = {
-  host:'127.0.0.1',
-  port: 3306
-};
-var proxy = url.parse(process.env.STATICA_URL);
-var auth = proxy.auth;
-var username = auth.split(":")[0]
-var pass = auth.split(":")[1]
-
-var sock_options = {
-  host: proxy.hostname,
-  port: 1080,
-  user: username,
-  pass: pass
-}
-var sockConn = new SocksConnection(remote_options, sock_options)
-var dbConnection = mysql.createConnection({
-  user: 'knockoy5_cbell11',
-  database: 'knockoy5_WPZEL',
-  password: 'Chandler0522!',
-  stream: sockConn
-});
-dbConnection.query("SELECT * FROM qna WHERE ko_id='"+ko_id+"'", function(err, rows, fields) {
-  if (err) throw err;
-  console.log(rows);
-  for(var i = 0; i < rows.length; i++){
-  console.log('Q'+(i+1)+': '+rows[i].qna_q+'');
-  console.log('Q'+(i+1)+': '+rows[i].qna_a+'');
-  wordPool.push( {
-      'question': [rows[i].qna_q],
-      'cor_ans': [rows[i].qna_a],
-      'decoys': [],
-  });
-  }
-});
-dbConnection.end();
     /*
 DB4free
     var con = mysql.createConnection({
@@ -591,9 +552,7 @@ Local Host Setup
      });
      con.end();
      console.log("Removed database connection...");
-
-
-
+     */
      wordPool = [];
      wordPool.push( {
          'question': ['1+1'],
@@ -625,6 +584,6 @@ Local Host Setup
          'cor_ans': ['Washington DC'],
          'decoys': [],
      })
-     console.log(wordPool)*/
+     console.log(wordPool)
 
 }
