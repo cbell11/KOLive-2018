@@ -508,7 +508,7 @@ function populateQuestionPool(ko_id){
 var url = require("url");
 var SocksConnection = require('socksjs');
 var remote_options = {
-  host:'localhost',
+  host:'127.0.0.1',
   port: 3306
 };
 var proxy = url.parse(process.env.STATICA_URL);
