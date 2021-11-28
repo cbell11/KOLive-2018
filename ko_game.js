@@ -502,8 +502,40 @@ function shuffle(sourceArray) {
 
 
 function populateQuestionPool(ko_id){
-  var mysql = require('mysql');
   var express = require('express');
+
+  var mysql = require('mysql2');
+var url = require("url");
+var SocksConnection = require('socksjs');
+var remote_options = {
+  host:'127.0.0.1',
+  port: 3306
+};
+var proxy = url.parse(process.env.STATICA_URL);
+var auth = proxy.auth;
+var username = auth.split(":")[0]
+var pass = auth.split(":")[1]
+
+var sock_options = {
+  host: proxy.hostname,
+  port: 1080,
+  user: username,
+  pass: pass
+}
+var sockConn = new SocksConnection(remote_options, sock_options)
+var dbConnection = mysql.createConnection({
+  user: 'knockoy5_cbell11',
+  database: 'knockoy5_WPZEL',
+  password: 'Chandler0522!',
+  stream: sockConn
+});
+dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+  if (err) throw err;
+
+  console.log('Result: ', rows);
+  sockConn.dispose();
+});
+dbConnection.end();
     /*
 DB4free
     var con = mysql.createConnection({
