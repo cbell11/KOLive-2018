@@ -529,11 +529,18 @@ var dbConnection = mysql.createConnection({
   password: 'Chandler0522!',
   stream: sockConn
 });
-dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+dbConnection.query("SELECT * FROM qna WHERE ko_id='"+ko_id+"'", function(err, rows, fields) {
   if (err) throw err;
-
-  console.log('Result: ', rows);
-  sockConn.dispose();
+  console.log(rows);
+  for(var i = 0; i < rows.length; i++){
+  console.log('Q'+(i+1)+': '+rows[i].qna_q+'');
+  console.log('Q'+(i+1)+': '+rows[i].qna_a+'');
+  wordPool.push( {
+      'question': [rows[i].qna_q],
+      'cor_ans': [rows[i].qna_a],
+      'decoys': [],
+  });
+  }
 });
 dbConnection.end();
     /*
@@ -584,7 +591,9 @@ Local Host Setup
      });
      con.end();
      console.log("Removed database connection...");
-     */
+
+
+
      wordPool = [];
      wordPool.push( {
          'question': ['1+1'],
@@ -616,6 +625,6 @@ Local Host Setup
          'cor_ans': ['Washington DC'],
          'decoys': [],
      })
-     console.log(wordPool)
+     console.log(wordPool)*/
 
 }
