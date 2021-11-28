@@ -24,7 +24,7 @@ var server = require('http').createServer(app).listen(process.env.PORT || 3306);
 // Create a Socket.IO server and attach it to the http server
 //var io = require('socket.io').listen(server);
 const io = require('socket.io')(server);
-server.listen(3306);
+//server.listen(3306);
 
 
 
