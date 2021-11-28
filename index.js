@@ -19,10 +19,14 @@ app.use(morgan('dev'));
 //});
 
 // Create a Node.js based http server on port 8080
-var server = require('http').createServer(app).listen(process.env.PORT || 5000);
+var server = require('http').createServer(app).listen(process.env.PORT || 3306);
 
 // Create a Socket.IO server and attach it to the http server
-var io = require('socket.io').listen(server);
+//var io = require('socket.io').listen(server);
+const io = require('socket.io')(server);
+server.listen(3306)
+
+
 
 // Reduce the logging output of Socket.IO
 io.set('log level',1);
